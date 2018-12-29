@@ -3,6 +3,14 @@ package data_structures;
 import java.util.*;
 import java.lang.*;
 
+/** A ChainMap groups multiple maps together to create a single, updateable view.
+
+ The underlying mappings are stored in a linked ist.  That list can be updated using the *maps()* method. There is no
+ other state.
+
+ Lookups search the underlying mappings successively until a key is found. In contrast, writes, updates, and removals
+ only operate on the first mapping.
+ */
 public class ChainMap<K,V> extends AbstractMap<K,V> {
 
     private LinkedList<Map<K,V>> internalMap = new LinkedList<>();
@@ -61,10 +69,8 @@ public class ChainMap<K,V> extends AbstractMap<K,V> {
 
     @Override
     public V remove(Object key) {
-        for (Map<K, V> mapping : internalMap) {
-            if (mapping.containsKey(key)) {
-                return mapping.remove(key);
-            }
+        if (!isEmpty()) {
+            return internalMap.getFirst().remove(key);
         }
         return null;
     }
@@ -91,7 +97,10 @@ public class ChainMap<K,V> extends AbstractMap<K,V> {
 
     @Override
     public V put(K key, V value) {
-        return super.put(key, value);
+        if (!internalMap.isEmpty()) {
+            return internalMap.getFirst().put(key, value);
+        }
+        return null;
     }
 
     @Override
