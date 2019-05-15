@@ -28,6 +28,7 @@ public class BalancedParantheses {
     }
 
     public static void main(String[] args) {
+        String s = "{{[]}}";
         System.out.println(BalancedParantheses.isBalancedIter(s));
     }
 }
