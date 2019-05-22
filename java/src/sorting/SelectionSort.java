@@ -1,3 +1,7 @@
+package sorting;
+
+import java.lang.*;
+
 public class SelectionSort {
 
     public void sort(int[] arr) {

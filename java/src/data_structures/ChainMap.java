@@ -9,16 +9,16 @@ import java.lang.*;
  other state.
 
  Lookups search the underlying mappings successively until a key is found. In contrast, writes, updates, and removals
- only operate on the first mapping.
- */
+ only operate on the first mapping. */
 public class ChainMap<K,V> extends AbstractMap<K,V> {
 
     private LinkedList<Map<K,V>> internalMap = new LinkedList<>();
 
-    transient Collection<K> keys;
-    transient Collection<V> values;
-    transient Collection<Entry<K, V>> entryCollection;
+    private transient Collection<K> keys;
+    private transient Collection<V> values;
+    private transient Collection<Entry<K, V>> entryCollection;
 
+    @SafeVarargs
     public ChainMap(Map<K, V>... maps) {
         internalMap.addAll(Arrays.asList(maps));
     }
@@ -35,11 +35,17 @@ public class ChainMap<K,V> extends AbstractMap<K,V> {
     }
 
     @Override
+    public V getOrDefault(Object key, V defaultValue) {
+        V value;
+        return (value = get(key)) == null ? defaultValue : value;
+    }
+
+    @Override
     public int size() {
         return internalMap.size();
     }
 
-    private int entryCount() {
+    public int entryCount() {
         int count = 0;
         for (Map<K, V> mapping : internalMap) {
             count += mapping.size();
@@ -104,8 +110,40 @@ public class ChainMap<K,V> extends AbstractMap<K,V> {
     }
 
     @Override
+    public V putIfAbsent(K key, V value) {
+        if (!internalMap.isEmpty()) {
+            return internalMap.getFirst().putIfAbsent(key, value);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean remove(Object key, Object value) {
+        if (!internalMap.isEmpty()) {
+            return internalMap.getFirst().remove(key, value);
+        }
+        return false;
+    }
+
+    @Override
     public void putAll(Map<? extends K, ? extends V> m) {
         throw new UnsupportedOperationException("ChainMap does not support the putAll method, use addMap instead");
+    }
+
+    @Override
+    public V replace(K key, V value) {
+        if (!internalMap.isEmpty()) {
+            return internalMap.getFirst().replace(key, value);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean replace(K key, V oldValue, V newValue) {
+        if (!internalMap.isEmpty()) {
+            return internalMap.getFirst().replace(key, oldValue, newValue);
+        }
+        return false;
     }
 
     @Override
@@ -151,12 +189,29 @@ public class ChainMap<K,V> extends AbstractMap<K,V> {
         Map<?,?> m = (ChainMap<?,?>) o;
         if (m.size() != size())
             return false;
-        // TODO: Implement entry set to add a custom iterator to compare against
+        try {
+            Iterator<Entry<K, V>> iter = entryCollection().iterator();
+            while (iter.hasNext()) {
+                Entry<K, V> entry = iter.next();
+                K key = entry.getKey();
+                V value = entry.getValue();
+                if (value == null) {
+                    if (!(m.get(key) == null && m.containsKey(key))) {
+                        return false;
+                    }
+                } else {
+                    if (!value.equals(m.get(key))) {
+                        return false;
+                    }
+                }
+            }
+        } catch (ClassCastException | NullPointerException unused) {
+            return false;
+        }
 
-        return super.equals(o);
+        return true;
     }
 
-    // TODO: Implement iterator to make this function cleaner with hasNext() functionality instead of using count mechanism
     @Override
     public String toString() {
         int count = 0;
@@ -174,7 +229,6 @@ public class ChainMap<K,V> extends AbstractMap<K,V> {
         return sb.toString();
     }
 
-    // TODO: Implement EntrySet and Iterator object
     @Override
     public Set<Entry<K, V>> entrySet() {
         throw new UnsupportedOperationException("ChainMap does not have unique key values, use entryCollection instead!");
@@ -471,15 +525,20 @@ public class ChainMap<K,V> extends AbstractMap<K,V> {
         HashMap<String, String> map = new HashMap<>();
         HashMap<String, String> map2 = new HashMap<>();
         HashMap<String, String> map3 = new HashMap<>();
+        HashMap<String, String> map4 = new HashMap<>();
 
         map.put("Sasha", "Obucina");
+        System.out.println("HashMap keySet before: " + map.keySet());
         map.put("Subject", "Test");
+        System.out.println("HashMap keySet after: " + map.keySet());
 
         map2.put("Anything", "Value");
         map2.put("Really", "Anything");
 
-        ChainMap<String, String> chainMap = new ChainMap<>(map, map2, map3);
-        System.out.println("ChainMap: " + chainMap);
+        ChainMap<String, String> chainMap = new ChainMap<>(map, map2, map3, map4);
+        System.out.println("KeyCollection before: " + chainMap.keys());
+        map4.put("todo", "idc");
+        System.out.println("KeyCollection after: " + chainMap.keys());
     }
 
 }

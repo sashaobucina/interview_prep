@@ -13,7 +13,7 @@ public class MedianOfStream {
         }
     }
 
-    public static void maxHeapify(int[] arr, int index, int heapSize) {
+    public static void maxHeapify(int[] arr, int i, int heapSize) {
         int left = 2 * i + 1;
         int right = 2 * i + 2;
 
@@ -45,6 +45,8 @@ public class MedianOfStream {
     }
 
     public static void minHeapify(int[] arr, int i, int heapSize) {
+        int largest = 0;
+
         int left = 2 * i + 1;
         int right = 2 * i + 2;
 
@@ -87,7 +89,7 @@ public class MedianOfStream {
         float currentMedian = 0;
 
         for (int a_i = 0; a_i < n; a_i++) {
-            arr[a_i] = in.nextInt();
+            arr[a_i] = scanner.nextInt();
             if (arr[a_i] < currentMedian) {
                 maxHeap[maxHeapSize++] = arr[a_i];
                 if (maxHeap[maxHeapSize - 1] > 0) {

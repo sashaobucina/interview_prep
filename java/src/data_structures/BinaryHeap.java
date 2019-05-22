@@ -1,3 +1,4 @@
+package data_structures;
 
 import java.io.*;
 import java.lang.*;
@@ -28,7 +29,7 @@ public class BinaryHeap {
     }
 
     public int getParent(int i) {
-        return heap((i - 1) / numChildren);
+        return heap[(i - 1) / numChildren];
     }
 
     public int getKthChild(int i, int k) {
@@ -37,9 +38,9 @@ public class BinaryHeap {
 
     public void insert(int value) {
         if (isFull()) {
-            throw NoSuchElementException("The heap is full");
+            throw new NoSuchElementException("The heap is full");
         }
-        heap[heapSize++] = x;
+        heap[heapSize++] = value;
         heapifyUp(heapSize - 1);
 
     }
@@ -80,7 +81,7 @@ public class BinaryHeap {
     private void heapifyUp(int childInd) {
         int temp = heap[childInd];
 
-        while (childInd > 0 && tmp < heap[getParent(childInd)]) {
+        while (childInd > 0 && temp < heap[getParent(childInd)]) {
             heap[childInd] = heap[getParent(childInd)];
             childInd = getParent(childInd);
         }
@@ -100,10 +101,10 @@ public class BinaryHeap {
             smallest = right;
         }
 
-        if (smallest != i) {
-            int temp = arr[smallest];
-            heap[smallest] = heap[i];
-            heap[i] = temp;
+        if (smallest != ind) {
+            int temp = heap[smallest];
+            heap[smallest] = heap[ind];
+            heap[ind] = temp;
         }
     }
 

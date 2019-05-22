@@ -1,4 +1,5 @@
-import java.io;
+package trees;
+
 import java.lang.*;
 import java.util.*;
 
@@ -37,7 +38,7 @@ public class Graph<T> {
             this.weight = weight;
         }
 
-        public V getVertex() {
+        public T getVertex() {
             return this.vertex;
         }
 

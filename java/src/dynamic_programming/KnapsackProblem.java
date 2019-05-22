@@ -36,9 +36,9 @@ public class KnapsackProblem {
     }
 
     public static void main(String[] args) {
-        int[] weightTable = {10, 20, 30};
+        int[] weightTable = {1, 2, 3};
         int[] values = {60, 100, 120};
 
-        System.out.println("Max value: " + knapsack(50, weightTable, values, 3));
+        System.out.println("Max value: " + knapsack(5, weightTable, values, 3));
     }
 }
