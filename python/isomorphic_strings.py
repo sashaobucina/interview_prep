@@ -18,7 +18,6 @@ def is_isomorphic(s: str, t: str):
     else:
       if mapping[s[i]] != t[i]:
         return False
-  print(mapping)
   return True
 
 if __name__ == "__main__":
