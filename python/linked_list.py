@@ -88,6 +88,23 @@ class LinkedList:
     res += "{}".format(curr.data)
     return res
 
+  def has_cycle(self) -> bool:
+    if not self.head:
+      return False
+    slow_ptr, fast_ptr = self.head, self.head.next
+    while fast_ptr:
+      if fast_ptr.next is None:
+        return False
+      if fast_ptr is slow_ptr:
+        return True
+      fast_ptr = fast_ptr.next.next
+      slow_ptr = slow_ptr.next
+    return False
+
+  def where_is_cycle():
+    # TODO
+    return None
+
 if __name__ == "__main__":
   ll = LinkedList()
   ll.addAtTail(1)
@@ -96,4 +113,5 @@ if __name__ == "__main__":
   ll.addAtTail(4)
   ll.addAtIndex(5, 4)
   ll.deleteAtIndex(0)
+  print(ll.has_cycle())
   print(ll)
