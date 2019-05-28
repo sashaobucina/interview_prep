@@ -17,7 +17,16 @@ def insertion_sort(arr: list) -> None:
       j -= 1
     arr[j+1] = key
 
+def selection_sort(arr: list) -> None:
+  n = len(arr)
+  for i in range(n):
+    min_idx = i
+    for j in range(i+1, n):
+      if arr[min_idx] > arr[j]:
+        min_idx = j
+    arr[min_idx], arr[i] = arr[i], arr[min_idx]
+
 if __name__ == "__main__":
   arr = [11, 5, 4, 6, 2]
-  insertion_sort(arr)
+  selection_sort(arr)
   print(arr)
