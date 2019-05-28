@@ -89,20 +89,33 @@ class LinkedList:
     return res
 
   def has_cycle(self) -> bool:
-    if not self.head:
-      return False
-    slow_ptr, fast_ptr = self.head, self.head.next
-    while fast_ptr:
-      if fast_ptr.next is None:
-        return False
-      if fast_ptr is slow_ptr:
-        return True
+    slow_ptr, fast_ptr = self.head, self.head
+    while slow_ptr and fast_ptr and fast_ptr.next:
       fast_ptr = fast_ptr.next.next
       slow_ptr = slow_ptr.next
+      if fast_ptr is slow_ptr:
+        return True
     return False
 
-  def where_is_cycle():
-    # TODO
+  """
+  Returns the start of cycle detection, and None if there is no cycle.
+
+  Intuition:
+  When cycle detected, Slow pointer will meet fast pointer if you start slow pointer at the head
+  and increment them both by the same speed, 1.
+  """
+  def where_is_cycle(self):
+    slow_ptr, fast_ptr = self.head, self.head
+    while slow_ptr and fast_ptr and fast_ptr.next:
+      fast_ptr = fast_ptr.next.next
+      slow_ptr = slow_ptr.next
+      if fast_ptr is slow_ptr:
+        # Cycle detected
+        slow_ptr = self.head
+        while slow_ptr is not fast_ptr:
+          slow_ptr = slow_ptr.next
+          fast_ptr = fast_ptr.next
+        return slow_ptr
     return None
 
 if __name__ == "__main__":
@@ -113,5 +126,5 @@ if __name__ == "__main__":
   ll.addAtTail(4)
   ll.addAtIndex(5, 4)
   ll.deleteAtIndex(0)
-  print(ll.has_cycle())
+  print(ll.where_is_cycle())
   print(ll)
