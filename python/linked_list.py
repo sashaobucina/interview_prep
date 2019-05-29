@@ -118,6 +118,26 @@ class LinkedList:
         return slow_ptr
     return None
 
+  def get_middle_node(self):
+    fast_ptr, short_ptr = self.head, self.head
+    while fast_ptr and fast_ptr.next:
+      fast_ptr = fast_ptr.next.next
+      short_ptr = short_ptr.next
+    return short_ptr
+
+  def reverse(self) -> None:
+    prev, curr = None, self.head
+    while curr:
+      next = curr.next
+      curr.next = prev
+      prev = curr
+      curr = next
+    self.head = prev
+
+  def is_palindrome(self) -> bool:
+    # TODO
+    return False
+
 if __name__ == "__main__":
   ll = LinkedList()
   ll.addAtTail(1)
@@ -125,6 +145,5 @@ if __name__ == "__main__":
   ll.addAtTail(3)
   ll.addAtTail(4)
   ll.addAtIndex(5, 4)
-  ll.deleteAtIndex(0)
-  print(ll.where_is_cycle())
+  ll.reverse()
   print(ll)
