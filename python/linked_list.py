@@ -134,9 +134,66 @@ class LinkedList:
       curr = next
     self.head = prev
 
+  def aug_reverse(self, second_half):
+    prev, next = None, None
+    curr = second_half
+    while curr:
+      next = curr.next
+      curr.next = prev
+      prev = curr
+      curr = next
+    second_half = prev
+    return second_half
+
   def is_palindrome(self) -> bool:
-    # TODO
+    slow_ptr, fast_ptr = self.head, self.head
+    prev_of_slow_ptr = None
+    mid_node = None
+    res = True
+
+    if slow_ptr and slow_ptr.next:
+      #  Get middle of the list
+      while fast_ptr and fast_ptr.next:
+        fast_ptr = fast_ptr.next.next
+        prev_of_slow_ptr = slow_ptr
+        slow_ptr = slow_ptr.next
+
+      # Intermediate storing of variable
+      if fast_ptr:
+        mid_node = slow_ptr
+        slow_ptr = slow_ptr.next
+
+      # Reverse second half and compare it with the first half
+      second_half = slow_ptr
+      prev_of_slow_ptr.next = None   # Terminate the first half
+      second_half = self.aug_reverse(second_half)
+      res = self.head == second_half
+
+      # Construct original list back
+      second_half = self.aug_reverse(second_half)
+
+      if mid_node:
+        prev_of_slow_ptr.next = mid_node
+        mid_node.next = second_half
+      else:
+        prev_of_slow_ptr.next = second_half
+
+    return res
+
+  def __eq__(self, other):
+    head1 = self.head
+    head2 = other.head
+    while head1 and head2:
+      if head1.data == head2.data:
+        head1 = head1.next
+        head2 = head2.next
+      else:
+        return False
+
+    if not head1 and not head2:
+      return True
     return False
+
 
 if __name__ == "__main__":
   ll = LinkedList()
@@ -145,5 +202,5 @@ if __name__ == "__main__":
   ll.addAtTail(3)
   ll.addAtTail(4)
   ll.addAtIndex(5, 4)
-  ll.reverse()
+  ll.is_palindrome()
   print(ll)
