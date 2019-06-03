@@ -158,7 +158,7 @@ class LinkedList:
         prev_of_slow_ptr = slow_ptr
         slow_ptr = slow_ptr.next
 
-      # Intermediate storing of variable
+      # Intermediate storing of variable (middle case)
       if fast_ptr:
         mid_node = slow_ptr
         slow_ptr = slow_ptr.next
@@ -167,7 +167,7 @@ class LinkedList:
       second_half = slow_ptr
       prev_of_slow_ptr.next = None   # Terminate the first half
       second_half = self.aug_reverse(second_half)
-      res = self.head == second_half
+      res = self.compare_nodes(self.head, second_half)
 
       # Construct original list back
       second_half = self.aug_reverse(second_half)
@@ -179,6 +179,15 @@ class LinkedList:
         prev_of_slow_ptr.next = second_half
 
     return res
+
+  def compare_nodes(self, node1: LinkedListNode, node2: LinkedListNode) -> bool:
+    while node1 and node2:
+      if node1.data == node2.data:
+        node1 = node1.next
+        node2 = node2.next
+      else:
+        return False
+    return not node1 and not node2
 
   def __eq__(self, other):
     head1 = self.head
@@ -202,5 +211,5 @@ if __name__ == "__main__":
   ll.addAtTail(3)
   ll.addAtTail(4)
   ll.addAtIndex(5, 4)
-  ll.is_palindrome()
+  ll.is_palindrome() # expected: False
   print(ll)
