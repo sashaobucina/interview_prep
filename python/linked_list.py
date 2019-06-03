@@ -203,6 +203,36 @@ class LinkedList:
       return True
     return False
 
+def get_count(node: LinkedListNode) -> int:
+  count = 0
+  curr = node
+  while curr:
+    count += 1
+    curr = curr.next
+  return count
+
+def get_intersection_node(headA: LinkedListNode, headB: LinkedListNode) -> LinkedListNode:
+  c1 = get_count(headA)
+  c2 = get_count(headB)
+  diff = abs(c1 - c2)
+  if c1 > c2:
+    curr1, curr2 = headA, headB
+  else:
+    curr1, curr2 = headB, headA
+
+  # Traverse the bigger list by the difference of the lengths
+  while diff > 0:
+    curr1 = curr1.next
+    diff -= 1
+
+  # Traverse both lists in parallel until we come across common node
+  while curr1 and curr2:
+    if curr1 is curr2:
+      return curr1
+    curr1 = curr1.next
+    curr2 = curr2.next
+  return None
+
 
 if __name__ == "__main__":
   ll = LinkedList()
