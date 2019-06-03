@@ -1,6 +1,5 @@
 package trees;
 
-import java.lang.*;
 import java.util.*;
 
 public class Graph<T> {

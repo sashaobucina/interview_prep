@@ -1,6 +1,5 @@
 package trees;
 
-import java.lang.*;
 import java.util.*;
 
 class Node {
@@ -269,6 +268,30 @@ public class BinaryTree {
             depthFirstSearch(this.head);
         }
 
+    }
+
+    public boolean hasPathSum(Node root, int sum) {
+        if (root == null)
+            return false;
+        return hasPathSumHelper(root, sum);
+    }
+
+    private boolean hasPathSumHelper(Node node, int sum) {
+        if (node == null) {
+            return (sum == 0);
+        } else {
+            boolean ans = false;
+
+            /* check both subtrees */
+            int subsum = sum - node.value;
+            if (subsum == 0 && node.left == null && node.right == null)
+                return true;
+            if (node.right != null)
+                ans = ans || hasPathSumHelper(node.right, subsum);
+            if (node.left != null)
+                ans = ans || hasPathSumHelper(node.left, subsum);
+            return ans;
+        }
     }
 
     private void depthFirstSearch(Node root) {
