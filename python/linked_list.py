@@ -233,6 +233,36 @@ def get_intersection_node(headA: LinkedListNode, headB: LinkedListNode) -> Linke
     curr2 = curr2.next
   return None
 
+def add_two_numbers(l1: LinkedListNode, l2: LinkedListNode) -> LinkedListNode:
+  remainder = 0
+  curr1, curr2 = l1, l2
+  l3, front = None, None
+
+  while curr1 or curr2:
+    val1 = curr1.data if curr1 else 0
+    val2 = curr2.data if curr2 else 0
+    currSum = val1 + val2 + remainder
+
+    if currSum > 9:
+      currSum = currSum % 10
+      remainder = 1
+    else:
+      remainder = 0
+
+    newNode = LinkedList(currSum)
+    if l3:
+      l3.next = newNode
+      l3 = newNode
+    else:
+      l3 = newNode
+      front = newNode
+
+    curr1 = curr1.next if curr1 else None
+    curr2 = curr2.next if curr2 else None
+
+  if remainder == 1:
+    l3.next = LinkedListNode(1)
+  return front
 
 if __name__ == "__main__":
   ll = LinkedList()
