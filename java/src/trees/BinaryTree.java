@@ -294,6 +294,63 @@ public class BinaryTree {
         }
     }
 
+    public boolean isSymmetricIter() {
+        if (this.head == null)
+            return true;
+
+        if (this.head.left == null && this.head.right == null)
+            return true;
+
+        Queue<Node> q = new LinkedList<>();
+
+        q.add(this.head.left);
+        q.add(this.head.right);
+
+        while (!q.isEmpty()) {
+            Node tempLeft = q.remove();
+            Node tempRight = q.remove();
+
+            /* if both null then continue to other elements */
+            if (tempLeft == null && tempRight == null)
+                continue;
+
+            /* If only one is null, return false */
+            if ((tempLeft == null && tempRight != null) ||
+                (tempLeft != null && tempRight == null))
+                return false;
+
+            /* if both left and right nodes exist but have different values, return false */
+            if (tempLeft.value != tempRight.value)
+                return false;
+
+            /* Order of insertion is critical */
+            q.add(tempLeft.left);
+            q.add(tempRight.right);
+            q.add(tempLeft.right);
+            q.add(tempRight.left);
+        }
+
+        return true;
+    }
+
+    public boolean isSymmetric() {
+        return isMirror(this.head, this.head);
+    }
+
+    private boolean isMirror(Node leftTree, Node rightTree) {
+        if (leftTree == null && rightTree == null) {
+            return true;
+        }
+
+        if (leftTree != null && rightTree != null) {
+            if (leftTree.value == rightTree.value) {
+                return (isMirror(leftTree.left, rightTree.right) &&
+                    isMirror(leftTree.right, rightTree.left));
+            }
+        }
+        return false;
+    }
+
     private void depthFirstSearch(Node root) {
 
         Stack<Node> stack = new Stack<>();
