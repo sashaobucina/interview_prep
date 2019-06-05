@@ -29,4 +29,4 @@ def roman_to_int(s: str) -> int:
   return res
 
 if __name__ == "__main__":
-  print(roman_to_int('CMI'))
+  print(roman_to_int('MMMCMXCIX'))

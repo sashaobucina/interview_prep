@@ -23,7 +23,6 @@ public class IntToRoman {
 
   public static String toRoman(int num) {
     int l = mapping.floorKey(num);
-    System.out.println(l);
     if (num == l) {
       return mapping.get(num);
     }
@@ -31,7 +30,7 @@ public class IntToRoman {
   }
 
   public static void main(String[] args) {
-    System.out.println(IntToRoman.toRoman(901));
+    System.out.println(IntToRoman.toRoman(3999));
   }
 
 }
