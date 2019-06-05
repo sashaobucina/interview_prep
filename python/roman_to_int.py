@@ -21,10 +21,10 @@ def roman_to_int(s: str) -> int:
         res += s2 - s1
         i += 2
       else:
-        res = res + s1
+        res += s1
         i += 1
     else:
-      res = res + s1
+      res += s1
       i += 1
   return res
 

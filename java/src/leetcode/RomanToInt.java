@@ -40,6 +40,6 @@ public class RomanToInt {
   }
 
   public static void main(String[] args) {
-    System.out.println(RomanToInt.romanToInt("CMI"));
+    System.out.println(RomanToInt.romanToInt("MMMCMXCIX"));
   }
 }
