@@ -18,6 +18,23 @@ def maxDepth(root: TreeNode) -> int:
     return 0
   return 1 + max(maxDepth(root.right), maxDepth(root.left))
 
+def minDepth(root: TreeNode) -> int:
+  if not root:
+    return 0
+
+  if not root.right and not root.left:
+    return 1
+
+  # No right subtree, recur down left subtree
+  if not root.right:
+    return 1 + minDepth(root.left)
+
+  # No left subtree, recur down right subtree
+  if not root.left:
+    return 1 + minDepth(root.right)
+
+  return 1 + min(minDepth(root.right), minDepth(root.left))
+
 def isBalanced(root: TreeNode) -> bool:
   return isBalancedHelper(root) > -1
 
@@ -43,3 +60,4 @@ if __name__ == "__main__":
   t2 = TreeNode(1)
   print(isSameTree(t1, t2))
   print(maxDepth(t1))
+  print(minDepth(t1))
