@@ -13,6 +13,11 @@ def isSameTree(p: TreeNode, q: TreeNode) -> bool:
 
   return isSameTree(p.right, q.right) and isSameTree(p.left, q.left)
 
+def maxDepth(root: TreeNode) -> int:
+  if not root:
+    return 0
+  return 1 + max(maxDepth(root.right), maxDepth(root.left))
+
 def isBalanced(root: TreeNode) -> bool:
   return isBalancedHelper(root) > -1
 
@@ -37,3 +42,4 @@ if __name__ == "__main__":
   t1 = TreeNode(1)
   t2 = TreeNode(1)
   print(isSameTree(t1, t2))
+  print(maxDepth(t1))
