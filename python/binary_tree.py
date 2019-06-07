@@ -1,3 +1,5 @@
+from collections import deque
+
 class TreeNode:
   def __init__(self, x: int):
     self.val = x
@@ -55,9 +57,75 @@ def isBalancedHelper(root: TreeNode) -> int:
 
   return 1 + max(lh, rh)
 
+def reverseLevelOrderTraversal(root: TreeNode) -> list:
+  res = []
+  if not root:
+    return res
+  Q = []
+  Q.append(root)
+
+  while len(Q) > 0:
+    level_size = len(Q)
+    curr_level = []
+    for i in range(level_size):
+      root = Q.pop(0)
+      if root.left:
+        Q.append(root.left)
+      if root.right:
+        Q.append(root.right)
+      curr_level.append(root.val)
+    res = [curr_level] + res
+
+  return res
+
+
+def averageOfLevels(root: TreeNode) -> list:
+  if not root:
+    return []
+  res = []
+  Q = deque([])
+  Q.append(root)
+
+  while len(Q) > 0:
+    level_size = len(Q)
+    curr_total = 0
+    for i in range(level_size):
+      root = Q.popleft()
+      if root.left:
+        Q.append(root.left)
+      if root.right:
+        Q.append(root.right)
+      curr_total += root.val
+    res.append(curr_total / level_size)
+    print(res)
+
+  return res
+
+"""
+Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
+"""
+def sortedArrayToBST(nums: list) -> TreeNode:
+  if len(nums) == 0:
+    return None
+
+  mid = len(nums) // 2
+  root = TreeNode(nums[mid])
+  root.left = sortedArrayToBST(nums[:mid])
+  root.right = sortedArrayToBST(nums[mid+1:])
+  return root
+
 if __name__ == "__main__":
-  t1 = TreeNode(1)
-  t2 = TreeNode(1)
+  t1 = TreeNode(3)
+  t2 = TreeNode(9)
+  t3 = TreeNode(20)
+  t4 = TreeNode(15)
+  t5 = TreeNode(7)
+  t1.left = t2
+  t1.right = t3
+  t2.right = t5
+  t2.left = t4
   print(isSameTree(t1, t2))
   print(maxDepth(t1))
   print(minDepth(t1))
+  print(reverseLevelOrderTraversal(t1))
+  print(averageOfLevels(t1))
