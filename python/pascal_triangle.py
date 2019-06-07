@@ -3,11 +3,11 @@ def pascalsTriangle(numRows: int) -> list:
   for line in range(numRows):
     currRow = []
     for i in range(line + 1):
-      currRow.append(binomialCoeff(line, i))
+      currRow.append(_binomialCoeff(line, i))
     res.append(currRow)
   return res
 
-def binomialCoeff(n: int, k: int) -> int:
+def _binomialCoeff(n: int, k: int) -> int:
   res = 1
   if k > n - k:
     k = n - k
