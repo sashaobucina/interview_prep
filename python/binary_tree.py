@@ -57,10 +57,30 @@ def isBalancedHelper(root: TreeNode) -> int:
 
   return 1 + max(lh, rh)
 
-def reverseLevelOrderTraversal(root: TreeNode) -> list:
-  res = []
+def levelOrderTraversal(root: TreeNode) -> list:
   if not root:
-    return res
+    return []
+  res = []
+  Q = []
+  Q.append(root)
+
+  while len(Q) > 0:
+    level_size = len(Q)
+    curr_level = []
+    for i in range(level_size):
+      root = Q.pop(0)
+      if root.left:
+        Q.append(root.left)
+      if root.right:
+        Q.append(root.right)
+      curr_level.append(root.val)
+    res.append(curr_level)
+  return res
+
+def reverseLevelOrderTraversal(root: TreeNode) -> list:
+  if not root:
+    return []
+  res = []
   Q = []
   Q.append(root)
 
@@ -75,7 +95,6 @@ def reverseLevelOrderTraversal(root: TreeNode) -> list:
         Q.append(root.right)
       curr_level.append(root.val)
     res = [curr_level] + res
-
   return res
 
 
@@ -97,7 +116,6 @@ def averageOfLevels(root: TreeNode) -> list:
         Q.append(root.right)
       curr_total += root.val
     res.append(curr_total / level_size)
-    print(res)
 
   return res
 
@@ -127,5 +145,6 @@ if __name__ == "__main__":
   print(isSameTree(t1, t2))
   print(maxDepth(t1))
   print(minDepth(t1))
+  print(levelOrderTraversal(t1))
   print(reverseLevelOrderTraversal(t1))
   print(averageOfLevels(t1))
