@@ -97,6 +97,33 @@ def reverseLevelOrderTraversal(root: TreeNode) -> list:
     res = [curr_level] + res
   return res
 
+def zigzagTraversal(root: TreeNode) -> list:
+  if not root:
+    return []
+  res = []
+  currLevel = []
+  nextLevel = []
+  currLevel.append(root)
+  ltr = True
+
+  while len(currLevel) > 0:
+    curr = currLevel.pop()
+    res.append(curr.val)
+    if ltr:
+      if curr.left:
+        nextLevel.append(curr.left)
+      if curr.right:
+        nextLevel.append(curr.right)
+    else:
+      if curr.right:
+        nextLevel.append(curr.right)
+      if curr.left:
+        nextLevel.append(curr.left)
+
+    if len(currLevel) == 0:
+      ltr = not ltr
+      currLevel, nextLevel = nextLevel, currLevel
+  return res
 
 def averageOfLevels(root: TreeNode) -> list:
   if not root:
@@ -147,4 +174,5 @@ if __name__ == "__main__":
   print(minDepth(t1))
   print(levelOrderTraversal(t1))
   print(reverseLevelOrderTraversal(t1))
+  print(zigzagTraversal(t1))
   print(averageOfLevels(t1))
