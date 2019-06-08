@@ -10,6 +10,9 @@ def is_palindrome(num: int) -> bool:
 
   return num == reverted_num or num == reverted_num // 10
 
+"""
+Note: Ignore any non alphanumeric characters
+"""
 def isPalindrome(s: str) -> bool:
   n = len(s) - 1
   i = 0
