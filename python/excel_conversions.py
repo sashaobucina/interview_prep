@@ -13,5 +13,14 @@ def convertToTitle(n: int) -> str:
       n = n // 26
   return res
 
+def titleToNumber(s: str) -> int:
+  res = 0
+  for i in range(len(s)):
+    res *= 26
+    res += ord(s[i]) - ord('A') + 1
+
+  return res
+
 if __name__ == "__main__":
   print(convertToTitle(701))
+  print(titleToNumber('WB'))
