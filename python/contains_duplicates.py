@@ -4,7 +4,8 @@ def contains_duplicate(nums: list) -> bool:
   return len(nums) != len(s)
 
 """
-TODO
+Returns true if duplicate present and absolute distance between indices within k, 
+otherwise returns False.
 """
 def contains_duplicate_II(nums: list, k: int) -> bool:
   tracker = {}
@@ -13,6 +14,7 @@ def contains_duplicate_II(nums: list, k: int) -> bool:
       return True
     tracker[nums[i]] = i
   return False
+
 
 if __name__ == "__main__":
   arr = [1, 2, 3, 1]
