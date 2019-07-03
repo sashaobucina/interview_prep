@@ -1,3 +1,5 @@
+import collections
+
 class WordNode():
   def __init__(self, word: str, count: int):
     self.word = word
@@ -31,6 +33,35 @@ def ladderLength(startWord: str, endWord: str, wordList: list) -> int:
 
   return 0
 
+"""
+O(M*N) time complexity
+"""
+def ladderLengthOptimal(beginWord: str, endWord: str, wordList: list) -> int:
+  n, d, q = len(beginWord), collections.defaultdict(list), collections.deque()
+
+  for word in wordList:
+    for i in range(n):
+      d[word[:i] + "*" + word[i+1:]].append(word)
+  
+  q.append(WordNode(beginWord, 1))
+  visited = collections.defaultdict(bool)
+  visited[beginWord] = True
+  while q:
+    top = q.popleft()
+    curr, currWord = top.count, top.word
+    for i in range(n):
+      derivedWord = currWord[:i] + "*" + currWord[i+1:]
+      for word in d[derivedWord]:
+        if word == endWord:
+          return curr + 1
+        if derivedWord not in visited:
+          visited[word] = True
+          q.append(WordNode(word, curr + 1))
+    d[derivedWord] = []
+
+  # if endWord not in the given word list
+  return 0
+
 if __name__ == "__main__":
   wordList = ["hit", "hot","dot","dog","lot","log", "cog"]
-  print(ladderLength("hit", "cog", wordList))
+  print(ladderLengthOptimal("hit", "cog", wordList))
