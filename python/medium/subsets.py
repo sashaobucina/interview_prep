@@ -1,4 +1,3 @@
-import copy
 import collections
 
 """
@@ -22,7 +21,7 @@ def subsets_I(nums: list) -> list:
   return subsets
 
 """
-Given a list of inteers that may contain duplicates, return all possible subsets (the power set).
+Given a list of integers that may contain duplicates, return all possible subsets (the power set).
 
 NOTE: Do not return any duplicate subsets
 """
@@ -37,7 +36,7 @@ def subsets_II(nums: list) -> list:
   return result
 
 def toFindAllSubsets(nums: list, result: list, subset: list, start: int) -> None:
-  result.append(copy.deepcopy(subset))
+  result.append(subset.copy())
   for i in range(start, len(nums)):
     if (i != start and nums[i] == nums[i - 1]):
       continue
