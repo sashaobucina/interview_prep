@@ -264,6 +264,23 @@ def add_two_numbers(l1: LinkedListNode, l2: LinkedListNode) -> LinkedListNode:
     l3.next = LinkedListNode(1)
   return front
 
+def reverseList(head: LinkedListNode):
+  curr, prev = head, None
+  while curr:
+    tmp = curr.next
+    curr.next = prev
+    curr, prev = tmp, curr
+  return prev
+
+def reverseListRec(head: LinkedListNode):
+  if not head or not head.next:
+    return head
+
+  p = reverseListRec(head.next)
+  head.next.next = head
+  head.next = None
+  return p
+
 if __name__ == "__main__":
   ll = LinkedList()
   ll.addAtTail(1)

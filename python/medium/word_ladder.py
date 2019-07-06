@@ -42,7 +42,7 @@ def ladderLengthOptimal(beginWord: str, endWord: str, wordList: list) -> int:
   for word in wordList:
     for i in range(n):
       d[word[:i] + "*" + word[i+1:]].append(word)
-  
+
   q.append(WordNode(beginWord, 1))
   visited = collections.defaultdict(bool)
   visited[beginWord] = True

@@ -1,19 +1,11 @@
-import collections
-
 """
 Given a set of distinct integers, return all possible subsets (the power set).
 
 NOTE: Do not return any duplicate subsets
 """
 def subsets_I(nums: list) -> list:
-  mem = collections.defaultdict(bool)
   subsets = [[]]
   for el in nums:
-    if el not in mem:
-      mem[el] = True
-    else:
-      continue
-
     for i in range(len(subsets)):
       currSubset = subsets[i]
       subsets.append(currSubset + [el])

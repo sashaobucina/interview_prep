@@ -6,6 +6,29 @@ class TreeNode:
     self.left = None
     self.right = None
 
+def invertTree(root: TreeNode):
+  if not root:
+    return None
+  q = [root]
+  while len(q) > 0:
+    curr = q.pop(0)
+    curr.left, curr.right = curr.right, curr.left
+    if curr.right:
+      q.append(curr.right)
+    if curr.left:
+      q.append(curr.left)
+  return root
+
+def invertTreeRec(root: TreeNode):
+  if not root:
+    return None
+  if root.right:
+    invertTreeRec(root.right)
+  if root.left:
+    invertTreeRec(root.left)
+  root.left, root.right = root.right, root.left
+  return root
+
 def isSameTree(p: TreeNode, q: TreeNode) -> bool:
   # compare current nodes
   if not p and not q:
