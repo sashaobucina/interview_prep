@@ -12,7 +12,8 @@ def generateParantheses(n: int) -> list:
       backtrack(S + '(', left + 1, right)
     if right < left:
       backtrack(S + ')', left, right + 1)
-  backtrack()
+  if n > 0:
+    backtrack()
   return ans
 
 if __name__ == "__main__":
