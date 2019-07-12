@@ -30,7 +30,6 @@ def dfs(grid: list, word: str, i: int, j: int, k: int) -> bool:
   char = grid[i][j]
   grid[i][j] = '#'
 
-  # TODO
   for m in range(4):
     p_i = i + d_i[m]
     p_j = j + d_j[m]

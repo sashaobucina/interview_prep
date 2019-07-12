@@ -19,18 +19,18 @@ def waysToPayDP(coins: set, n: int):
   m = len(coins)
   table = [[0 for x in range(m)] for y in range(n + 1)]
 
+  # Populate the state table with base case when n is 0.
   for i in range(m):
     table[0][i] = 1
 
   for i in range(1, n + 1):
-    print(table)
     for j in range(m):
-      x = table[i - coins[j]][j] if i - coins[j] >= 0 else 0
-      y = table[i][j - 1] if j >= 1 else 0
+      x = table[i - coins[j]][j] if i - coins[j] >= 0 else 0    # use the current coin
+      y = table[i][j - 1] if j >= 1 else 0    # go to the next coin in the set
 
       table[i][j] = x + y
 
-  return table[n][m-1]
+  return table[n][m - 1]
 
 if __name__ == "__main__":
   coins = (1, 5, 10, 25)
