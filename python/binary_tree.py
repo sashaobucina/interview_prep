@@ -182,6 +182,25 @@ def sortedArrayToBST(nums: list) -> TreeNode:
   root.right = sortedArrayToBST(nums[mid+1:])
   return root
 
+"""
+Two Sum problem using BST
+"""
+def findTarget(root: TreeNode, k: int) -> bool:
+  if not root:
+    return False
+
+  s, q = set(), [root]
+  while len(q) > 0:
+    curr = q.pop()
+    if k - curr.val in s:
+      return True
+    s.add(curr.val)
+    if curr.left:
+      q.append(curr.left)
+    if curr.right:
+      q.append(curr.right)
+  return False
+
 if __name__ == "__main__":
   t1 = TreeNode(3)
   t2 = TreeNode(9)
