@@ -1,4 +1,9 @@
 """
+Longest increasing subsequence:
+
+L[i] can be written recursively as:
+  L[i] = 1 + max(L[j]) where 0 < j < i and nums[j] < nums[i] ; or
+  L[i] = 1, if no such j exists
 """
 def lis(nums: list) -> int:
   n = len(nums)
