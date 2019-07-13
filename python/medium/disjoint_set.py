@@ -1,5 +1,5 @@
 """
-Disjoint-set Union/Find
+Disjoint-set Union/Find with path compression
 """
 def disjointFind(data: list, i: int) -> int:
   if i != data[i]:

@@ -201,6 +201,40 @@ def findTarget(root: TreeNode, k: int) -> bool:
       q.append(curr.right)
   return False
 
+def inorderTraversal(root: TreeNode) -> None:
+  l = []
+  def helper(root: TreeNode) -> None:
+    if root.left:
+      helper(root.left)
+    l.append(root.val)
+    if root.right:
+      helper(root.right)
+  print(l)
+
+def recoverBST(root: TreeNode) -> None:
+  if not root:
+    return
+
+  def _inorderHelper(root: TreeNode, first, prev, second) -> None:
+    if not root:
+      return root
+
+    _inorderHelper(root.left, first, prev, second)
+    if not prev:
+      prev = root
+    else:
+      if root.val < prev.val:
+        if not first:
+          first = prev
+        second = root
+      prev = root
+    _inorderHelper(root.right, first, prev, second)
+
+  first, prev, second = None, None, None
+  _inorderHelper(root, None, None, None)
+  if first and second:
+    first.val, second.val = second.val, first.val
+
 if __name__ == "__main__":
   t1 = TreeNode(3)
   t2 = TreeNode(9)
