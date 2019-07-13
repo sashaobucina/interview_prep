@@ -231,7 +231,7 @@ def recoverBST(root: TreeNode) -> None:
     _inorderHelper(root.right, first, prev, second)
 
   first, prev, second = None, None, None
-  _inorderHelper(root, None, None, None)
+  _inorderHelper(root, first, prev, second)
   if first and second:
     first.val, second.val = second.val, first.val
 
