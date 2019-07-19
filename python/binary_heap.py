@@ -105,10 +105,24 @@ class MaxBinaryHeap:
       self._percolateDown(i)
       i = i - 1
 
+  def sort(self, alist: list) -> list:
+    self.buildHeap(alist)
+    n = self.currentSize
+    for i in range(n, 0, -1):
+      self.heapList[1], self.heapList[i] = self.heapList[i], self.heapList[1]   # swap
+      self.currentSize -= 1
+      self._percolateDown(1)
+    self.currentSize = n
+    return self.heapList
+
   def __str__(self):
     return str(self.heapList[1:])
 
 if __name__ == "__main__":
-  bh = MaxBinaryHeap()
-  bh.buildHeap([9, 3, 7, 2, 4, 10])
-  print(bh)
+  maxBH = MaxBinaryHeap()
+  maxBH.buildHeap([9, 3, 7, 34, 2, 4, 10])
+  print(maxBH)
+
+  maxBH2 = MaxBinaryHeap()
+  sortedArr = maxBH2.sort([9, 3, 7, 34, 2, 4, 10])
+  print(sortedArr)   # should now return a sorted array using heapsort method

@@ -61,13 +61,13 @@ def mergesort(arr: list) -> None:
       arr[k] = l[i]
       i += 1
       k += 1
-    
+
     while j < len(r):
       arr[k] = r[j]
       j += 1
       k += 1
 
 if __name__ == "__main__":
-  arr = [11, 5, 4, 6, 12]
+  arr = [11, 5, 4, 6, 12, 1]
   mergesort(arr)
   print(arr)
