@@ -311,6 +311,25 @@ def reverseListRec(head: LinkedListNode):
   head.next = None
   return p
 
+"""
+Write a function to delete a node (except the tail) in a singly linked list, 
+given only access to that node.
+
+NOTE:
+  - The linked list will have at least two elements.
+  - All of the nodes' values will be unique.
+  - The given node will not be the tail and it will always be a valid node of the linked list.
+"""
+def deleteNode(node: LinkedListNode) -> None:
+  prev = node
+  while node.next:
+    node.val = node.next.val
+    prev = node
+    node = node.next
+
+  prev.next = None
+
+
 if __name__ == "__main__":
   ll = LinkedList()
   ll.addAtTail(1)
