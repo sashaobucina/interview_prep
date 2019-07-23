@@ -134,6 +134,36 @@ class LinkedList:
       curr = next
     self.head = prev
 
+  """
+  Reverse a linked list from position m to n. Do it in one-pass.
+
+  NOTE: 1 ≤ m ≤ n ≤ length of list.
+  """
+  def reverseBetween(self, m: int, n: int) -> None:
+    if m == n:
+      return
+
+    curr, prev = self.head, None
+    while m > 1:
+      prev = curr
+      curr = curr.next
+      m, n = m - 1, n - 1
+
+    con, tail = prev, curr
+
+    while n:
+      temp = curr.next
+      curr.next = prev
+      prev = curr
+      curr = temp
+      n -= 1
+
+    if con:
+      con.next = prev
+    else:
+      self.head = prev
+    tail.next = curr
+
   def aug_reverse(self, second_half):
     prev, next = None, None
     curr = second_half
@@ -289,4 +319,6 @@ if __name__ == "__main__":
   ll.addAtTail(4)
   ll.addAtIndex(5, 4)
   ll.is_palindrome() # expected: False
+  print(ll)
+  ll.reverseBetween(2, 4)
   print(ll)
