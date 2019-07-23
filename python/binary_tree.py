@@ -224,6 +224,22 @@ def preOrderTraversal(root: TreeNode) -> list:
     _recHelper(root, arr)
   return arr
 
+def preOrderTraversalIter(root: TreeNode) -> list:
+  if not root:
+    return []
+
+  res, stk = [], [root]
+
+  while len(stk) > 0:
+    curr = stk.pop(len(stk) - 1)
+    res.append(curr.val)
+    if curr.right:
+      stk.append(curr.right)
+    if curr.left:
+      stk.append(curr.left)
+
+  return res
+
 def recoverBST(root: TreeNode) -> None:
   if not root:
     return
@@ -263,6 +279,7 @@ if __name__ == "__main__":
   print("min depth:", minDepth(t1))
   print("levelOrder:", levelOrderTraversal(t1))
   print("reverseLevelOrder:", reverseLevelOrderTraversal(t1))
-  print("preOrder:", preOrderTraversal(t1))
+  print("preOrder (recursive):", preOrderTraversal(t1))
+  print("preOrder (iterative):", preOrderTraversalIter(t1))
   print("zigzag:", zigzagTraversal(t1))
   print("average of levels:", averageOfLevels(t1))
