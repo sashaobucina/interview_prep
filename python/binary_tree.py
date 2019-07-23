@@ -211,6 +211,19 @@ def inorderTraversal(root: TreeNode) -> None:
       helper(root.right)
   print(l)
 
+def preOrderTraversal(root: TreeNode) -> list:
+  arr = []
+  def _recHelper(root: TreeNode, arr: list) -> None:
+    arr.append(root.val)
+    if root.left:
+      _recHelper(root.left, arr)
+    if root.right:
+      _recHelper(root.right, arr)
+
+  if root:
+    _recHelper(root, arr)
+  return arr
+
 def recoverBST(root: TreeNode) -> None:
   if not root:
     return
@@ -245,10 +258,11 @@ if __name__ == "__main__":
   t1.right = t3
   t2.right = t5
   t2.left = t4
-  print(isSameTree(t1, t2))
-  print(maxDepth(t1))
-  print(minDepth(t1))
-  print(levelOrderTraversal(t1))
-  print(reverseLevelOrderTraversal(t1))
-  print(zigzagTraversal(t1))
-  print(averageOfLevels(t1))
+  print("is same tree?", isSameTree(t1, t2))
+  print("max depth:", maxDepth(t1))
+  print("min depth:", minDepth(t1))
+  print("levelOrder:", levelOrderTraversal(t1))
+  print("reverseLevelOrder:", reverseLevelOrderTraversal(t1))
+  print("preOrder:", preOrderTraversal(t1))
+  print("zigzag:", zigzagTraversal(t1))
+  print("average of levels:", averageOfLevels(t1))
