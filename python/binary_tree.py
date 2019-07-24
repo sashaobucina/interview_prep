@@ -201,15 +201,18 @@ def findTarget(root: TreeNode, k: int) -> bool:
       q.append(curr.right)
   return False
 
-def inorderTraversal(root: TreeNode) -> None:
-  l = []
-  def helper(root: TreeNode) -> None:
+def inOrderTraversal(root: TreeNode) -> list:
+  arr = []
+  def _recHelper(root: TreeNode, arr: list) -> None:
     if root.left:
-      helper(root.left)
-    l.append(root.val)
+      _recHelper(root.left, arr)
+    arr.append(root.val)
     if root.right:
-      helper(root.right)
-  print(l)
+      _recHelper(root.right, arr)
+
+  if root:
+    _recHelper(root, arr)
+  return arr
 
 def postOrderTraversal(root: TreeNode) -> list:
   arr = []
@@ -290,8 +293,9 @@ if __name__ == "__main__":
   print("is same tree?", isSameTree(t1, t2))
   print("max depth:", maxDepth(t1))
   print("min depth:", minDepth(t1))
+  print("inOrder:", inOrderTraversal(t1))
   print("levelOrder:", levelOrderTraversal(t1))
-  print("reverseLevelOrder:", reverseLevelOrderTraversal(t1))
+  print("rever seLevelOrder:", reverseLevelOrderTraversal(t1))
   print("preOrder (recursive):", preOrderTraversal(t1))
   print("preOrder (iterative):", preOrderTraversalIter(t1))
   print("postOrder (recursive)", postOrderTraversal(t1))
