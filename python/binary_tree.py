@@ -283,6 +283,10 @@ def recoverBST(root: TreeNode) -> None:
 def isLeaf(root: TreeNode) -> bool:
   return not root.left and not root.right
 
+"""
+Given a binary tree and a sum, determine if the tree has a root-to-leaf path such 
+that adding up all the values along the path equals the given sum.
+"""
 def hasPathSum(root: TreeNode, sum: int) -> bool:
   def _recHelper(root: TreeNode, sum: int) -> bool:
     if isLeaf(root) and sum == 0:
