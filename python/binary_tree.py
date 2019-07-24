@@ -211,6 +211,19 @@ def inorderTraversal(root: TreeNode) -> None:
       helper(root.right)
   print(l)
 
+def postOrderTraversal(root: TreeNode) -> list:
+  arr = []
+  def _recHelper(root: TreeNode, arr: list) -> None:
+    if root.left:
+      _recHelper(root.left, arr)
+    if root.right:
+      _recHelper(root.right, arr)
+    arr.append(root.val)
+
+  if root:
+    _recHelper(root, arr)
+  return arr
+
 def preOrderTraversal(root: TreeNode) -> list:
   arr = []
   def _recHelper(root: TreeNode, arr: list) -> None:
@@ -281,5 +294,6 @@ if __name__ == "__main__":
   print("reverseLevelOrder:", reverseLevelOrderTraversal(t1))
   print("preOrder (recursive):", preOrderTraversal(t1))
   print("preOrder (iterative):", preOrderTraversalIter(t1))
+  print("postOrder (recursive)", postOrderTraversal(t1))
   print("zigzag:", zigzagTraversal(t1))
   print("average of levels:", averageOfLevels(t1))
