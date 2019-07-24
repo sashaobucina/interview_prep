@@ -283,6 +283,22 @@ def recoverBST(root: TreeNode) -> None:
 def isLeaf(root: TreeNode) -> bool:
   return not root.left and not root.right
 
+def hasPathSum(root: TreeNode, sum: int) -> bool:
+  def _recHelper(root: TreeNode, sum: int) -> bool:
+    if isLeaf(root) and sum == 0:
+      return True
+
+    ans = False
+    if root.left:
+      ans = ans or _recHelper(root.left, sum - root.left.val)
+    if root.right:
+      ans = ans or _recHelper(root.right, sum - root.right.val)
+    return ans
+
+  if root:
+    return _recHelper(root, sum - root.val)
+  return False
+
 """
 Given a binary tree and a sum, find all root-to-leaf paths where each path's 
 sum equals the given sum.
@@ -329,4 +345,5 @@ if __name__ == "__main__":
   print("postOrder (recursive)", postOrderTraversal(t1))
   print("zigzag:", zigzagTraversal(t1))
   print("average of levels:", averageOfLevels(t1))
-  print("path sum:", pathSumII(t1, 27))
+  print("has path sum?", hasPathSum(t1, 19))
+  print("path sum (show path):", pathSumII(t1, 27))
