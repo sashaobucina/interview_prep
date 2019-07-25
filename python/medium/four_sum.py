@@ -24,8 +24,6 @@ def fourSum(nums: list, target: int) -> list:
 
   return solutionSet
 
-  return solutionSet
-
 if __name__ == "__main__":
   arr = [1, 0, -1, 0, -2, 2]
   print(fourSum(arr, 0))
