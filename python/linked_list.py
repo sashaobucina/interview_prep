@@ -329,6 +329,33 @@ def deleteNode(node: LinkedListNode) -> None:
 
   prev.next = None
 
+"""
+Given a linked list, remove the n-th node from the end of list and return its head.
+
+NOTE: n will always be valid (0 > n > len(linked list)). Solution is done in one-pass.
+"""
+def removeNthFromEnd(head: LinkedListNode, n: int):
+  count = 1
+  curr, trailing, trailingPrev = head, head, None
+
+  while curr:
+    if count > n:
+      if not trailingPrev:
+        trailingPrev = trailing
+      else:
+        trailingPrev = trailingPrev.next
+      trailing = trailing.next
+
+    curr = curr.next
+    count += 1
+
+  # Do deletion now
+  if not trailingPrev:
+    head = trailing.next
+  else:
+    trailingPrev.next = trailing.next
+  return head
+
 
 if __name__ == "__main__":
   ll = LinkedList()
