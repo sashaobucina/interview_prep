@@ -328,6 +328,27 @@ def pathSumII(root: TreeNode, sum: int) -> list:
     _recHelper(root, sum - root.val, [root.val])
   return solutionSet
 
+"""
+Given a binary tree, imagine yourself standing on the right side of it, return 
+the values of the nodes you can see ordered from top to bottom.
+"""
+def rightSideView(root: TreeNode) -> list:
+  rightMostValueAtDepth = dict()
+
+  stk = [(root, 0)]
+  maxDepth = -1
+
+  while stk:
+    node, depth = stk.pop()
+    if node:
+      maxDepth = max(maxDepth, depth)
+      rightMostValueAtDepth.setdefault(depth, node.val)
+
+      stk.append((node.left, depth + 1))
+      stk.append((node.right, depth + 1))
+
+  return [rightMostValueAtDepth[depth] for depth in range(maxDepth + 1)]
+
 if __name__ == "__main__":
   t1 = TreeNode(3)
   t2 = TreeNode(9)
@@ -350,4 +371,5 @@ if __name__ == "__main__":
   print("zigzag:", zigzagTraversal(t1))
   print("average of levels:", averageOfLevels(t1))
   print("has path sum?", hasPathSum(t1, 19))
+  print("right side view:", rightSideView(t1))
   print("path sum (show path):", pathSumII(t1, 27))
