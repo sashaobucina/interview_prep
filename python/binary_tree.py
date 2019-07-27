@@ -170,6 +170,21 @@ def averageOfLevels(root: TreeNode) -> list:
   return res
 
 """
+Find the sum of all left leaves in a given binary tree.
+"""
+def sumOfLeftLeaves(root: TreeNode) -> int:
+  if not root:
+    return 0
+
+  right = sumOfLeftLeaves(root.right)
+  left = sumOfLeftLeaves(root.left)
+  
+  if root.left and isLeaf(root.left):
+    return root.left.val + right + left
+  else:
+    return right + left
+
+"""
 Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
 """
 def sortedArrayToBST(nums: list) -> TreeNode:
@@ -369,6 +384,7 @@ if __name__ == "__main__":
   print("preOrder (iterative):", preOrderTraversalIter(t1))
   print("postOrder (recursive)", postOrderTraversal(t1))
   print("zigzag:", zigzagTraversal(t1))
+  print("sum of left leaves:", sumOfLeftLeaves(t1))
   print("average of levels:", averageOfLevels(t1))
   print("has path sum?", hasPathSum(t1, 19))
   print("right side view:", rightSideView(t1))
