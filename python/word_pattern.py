@@ -17,5 +17,13 @@ def wordPattern(pattern: str, str: str) -> bool:
     d[pattern[i]] = words[i]
   return True
 
+def wordPatternOpt(pattern: str, s: str) -> bool:
+  words = s.split()
+  if len(pattern) == len(words):
+    return len(set(zip(words, pattern))) == len(set(pattern)) == len(set(words))
+  else:
+    return False
+
 if __name__ == "__main__":
-  print(wordPattern("aaaa", "dog cat dog dog"))
+  print(wordPattern("aaaa", "dog cat dog dog"))   # expected: False
+  print(wordPatternOpt("abaa", "dog cat dog dog"))    # expected: True
