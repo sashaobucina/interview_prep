@@ -364,6 +364,34 @@ def rightSideView(root: TreeNode) -> list:
 
   return [rightMostValueAtDepth[depth] for depth in range(maxDepth + 1)]
 
+"""
+#366 Leetcode - Find leaves of binary tree.
+
+Given a binary tree, traverse the entire tree and return all the leaves in one level, all the nodes 
+one above the leaves in the next level, and so on such that the root is always in the last level of 
+resulting output array.
+
+Input: [1, 2, 3, 4, 5]
+Output: [[3, 4, 5], [2], [1]]
+"""
+def findLeaves(root: TreeNode) -> list:
+  res = []
+
+  def helper(curr: TreeNode) -> int:
+    if curr == None:
+      return -1
+
+    ind = max(helper(curr.left), helper(curr.right)) + 1
+    if len(res) > ind:
+      res[ind].append(curr.val)
+    else:
+      res.append([curr.val])
+
+    return ind
+
+  helper(root)
+  return res
+
 if __name__ == "__main__":
   t1 = TreeNode(3)
   t2 = TreeNode(9)
@@ -389,3 +417,4 @@ if __name__ == "__main__":
   print("has path sum?", hasPathSum(t1, 19))
   print("right side view:", rightSideView(t1))
   print("path sum (show path):", pathSumII(t1, 27))
+  print("find leaves of binary tree", findLeaves(t1))
