@@ -1,5 +1,8 @@
 import heapq
 
+"""
+O(n + klogn)
+"""
 def kth_smallest(arr: list, k: int):
   copy = arr.copy()
   heapq.heapify(copy)
@@ -7,7 +10,9 @@ def kth_smallest(arr: list, k: int):
     heapq.heappop(copy)
   return heapq.heappop(copy)
 
-
+"""
+O(nlogk)
+"""
 def kth_smallest2(arr: list, k: int):
   neg_arr = [-x for x in arr]
   subset = neg_arr[:k]
