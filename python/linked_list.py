@@ -349,6 +349,29 @@ def removeNthFromEnd(head: LinkedListNode, n: int):
   second.next = second.next.next
   return dummy.next
 
+"""
+"""
+def swap_pairs(head: LinkedListNode):
+  if not head:
+    return None
+
+  prev, curr = None, head
+  while curr and curr.next:
+    if not prev:
+      head = curr.next
+    else:
+      prev.next = curr.next
+
+    # swap
+    curr.next.next, curr.next = curr, curr.next.next
+
+    # double iteration
+    prev = curr
+    curr = curr.next
+  
+  return head
+
+
 
 if __name__ == "__main__":
   ll = LinkedList()
