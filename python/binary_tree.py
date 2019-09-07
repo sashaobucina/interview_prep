@@ -392,6 +392,20 @@ def findLeaves(root: TreeNode) -> list:
   helper(root)
   return res
 
+
+def isSubtree(s: TreeNode, t: TreeNode) -> bool:
+  def equals(s: TreeNode, t: TreeNode) -> bool:
+    if not s and not t:
+      return True
+    if not s or not t:
+      return False
+    return s.val == t.val and equals(s.left, t.left) and equals(s.right, t.right)
+
+  def traverse(s: TreeNode, t: TreeNode) -> bool:
+    return t and (equals(s, t) or traverse(s, t.left) or traverse(s, t.right))
+
+  return traverse(s, t)
+
 if __name__ == "__main__":
   t1 = TreeNode(3)
   t2 = TreeNode(9)
@@ -418,3 +432,4 @@ if __name__ == "__main__":
   print("right side view:", rightSideView(t1))
   print("path sum (show path):", pathSumII(t1, 27))
   print("find leaves of binary tree", findLeaves(t1))
+  print("Is subtree?", isSubtree(t3, t1))
