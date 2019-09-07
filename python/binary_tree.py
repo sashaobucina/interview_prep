@@ -406,6 +406,42 @@ def isSubtree(s: TreeNode, t: TreeNode) -> bool:
 
   return traverse(s, t)
 
+"""
+Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined 
+between two nodes p and q as the lowest node in T that has both p and q as descendants 
+(where we allow a node to be a descendant of itself).”
+
+NOTE: - All of the nodes' values will be unique.
+NOTE: - p and q are different and both values will exist in the binary tree.
+"""
+def lowestCommonAncestor(root: TreeNode, p: TreeNode, q: TreeNode):
+  stk = [root]
+  parent = {root: None}
+
+  while p not in parent or q not in parent:
+    curr = stk.pop()
+
+    if curr.left:
+      parent[curr.left] = curr
+      stk.append(curr.left)
+    if curr.right:
+      parent[curr.right] = curr
+      stk.append(curr.right)
+
+  ancestors = set()
+  print(ancestors)
+
+  while p:
+    ancestors.add(p)
+    p = parent[p]
+
+  while q not in ancestors:
+    q = parent[q]
+  return q
+
+
 if __name__ == "__main__":
   t1 = TreeNode(3)
   t2 = TreeNode(9)
@@ -433,3 +469,4 @@ if __name__ == "__main__":
   print("path sum (show path):", pathSumII(t1, 27))
   print("find leaves of binary tree", findLeaves(t1))
   print("Is subtree?", isSubtree(t3, t1))
+  print("Lowest common ancestor:", lowestCommonAncestor(t1, t3, t5).val)
