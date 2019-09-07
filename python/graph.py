@@ -3,7 +3,6 @@ from collections import defaultdict
 class Graph:
   def __init__(self, connections, directed=False):
     self.graph = defaultdict(set)
-    print(self.graph)
     self.directed = directed
     self.addConnections(connections)
 
@@ -95,6 +94,21 @@ class Graph:
 
     return False
 
+  def dfs(self, start):
+    visited = {key: False for (key, value) in self.graph.items()}
+    stk = [start]
+
+    while len(stk) > 0:
+      s = stk.pop()
+
+      if not visited[s]:
+        print(s, end=' ')
+        visited[s] = True
+
+      for node in self.graph[s]:
+        if not visited[node]:
+          stk.append(node)
+
 
 if __name__ == "__main__":
   connections1 = [('B', 'C'), ('B', 'D'), ('C', 'D'), ('E', 'F'), ('F', 'C'), ('B', 'A')]
@@ -106,3 +120,6 @@ if __name__ == "__main__":
 
   print("\nFollowing is whether given directed graph has a cycle:")
   print(g1.hasCycle())
+
+  g2 = Graph(connections1, directed=False)
+  g2.dfs('B')
