@@ -20,6 +20,9 @@ def trap(height: list) -> int:
   return ans
 
 def trap_dp(height: list) -> int:
+  if not height:
+    return 0
+
   ans, n = 0, len(height)
   left_max, right_max = [-1 for i in range(n)], [-1 for i in range(n)]
   if not height:
