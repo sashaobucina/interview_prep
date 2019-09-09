@@ -11,7 +11,6 @@ def trap(height: list) -> int:
       if len(stk) == 0:
         break
       distance = curr - stk[-1] - 1
-      print(stk, height[stk[-1]], height[top])
       bounded_height = min(height[curr] - height[top], height[stk[-1]] - height[top])
       ans += distance * bounded_height
 
@@ -20,6 +19,27 @@ def trap(height: list) -> int:
 
   return ans
 
+def trap_dp(height: list) -> int:
+  ans, n = 0, len(height)
+  left_max, right_max = [-1 for i in range(n)], [-1 for i in range(n)]
+  if not height:
+    return ans
+
+  left_max[0] = height[0]
+  for i in range(1, n):
+    left_max[i] = max(height[i], left_max[i-1])
+
+  right_max[n-1] = height[n-1]
+  for i in range(n - 2, -1, -1):
+    right_max[i] = max(height[i], right_max[i+1])
+
+  for i in range(1, n - 1):
+    ans += min(left_max[i] - height[i], right_max[i] - height[i])
+  return ans
+
 if __name__ == "__main__":
   height = [4,2,3]
   print(trap(height))   # expected: 1
+
+  height2 = [0,1,0,2,1,0,1,3,2,1,2,1]
+  print(trap_dp(height2))   # expected: 6
