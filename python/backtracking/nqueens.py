@@ -5,6 +5,8 @@ Given an integer n, return all distinct solutions to the n-queens puzzle.
 
 Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both 
 indicate a queen and an empty space respectively.
+
+NOTE: O(n!) time complexity, as for most backtracking problems
 """
 def nqueens(n: int):
   configs = []
