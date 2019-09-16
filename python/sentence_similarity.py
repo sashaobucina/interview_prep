@@ -3,6 +3,7 @@ import itertools
 class DSU:
   def __init__(self, n: int):
     self.p = list(range(n))
+    self.rank = [1] * n
 
   def find(self, x):
     if self.p[x] != x:
@@ -10,7 +11,15 @@ class DSU:
     return self.p[x]
 
   def union(self, x, y):
-    self.p[self.find(x)] = self.find(y)
+    px, py = self.find(x), self.find(y)
+    if px != py:
+      if self.rank[px] > self.rank[py]:
+        self.p[py] = px
+      elif self.rank[px] < self.rank[py]:
+        self.p[px] = py
+      else:
+        self.p[py] = px
+        self.rank[px] += 1
 
 """
 Given two sentences words1, words2 (each represented as an array of strings), and a list of similar word 
