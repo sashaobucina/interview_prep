@@ -442,6 +442,49 @@ def lowestCommonAncestor(root: TreeNode, p: TreeNode, q: TreeNode):
   return q
 
 
+def distance_k(root: TreeNode, target: TreeNode, k: int) -> list:
+  """
+  We are given a binary tree (with root node root), a target node, and an integer value K.
+
+  Return a list of the values of all nodes that have a distance K from the target node. 
+  The answer can be returned in any order.
+  """
+  ans = []
+
+  def dfs(node: TreeNode):
+    if not node:
+      return -1
+    elif node is target:
+      subtree_add(node, 0)
+      return 1
+    else:
+      L, R = dfs(node.left), dfs(node.right)
+      if L != -1:
+        if L == k:
+          ans.append(node.val)
+        subtree_add(node.right, L + 1)
+        return  L + 1
+      elif R != -1:
+        if R == k:
+          ans.append(node.val)
+        subtree_add(node.left, R + 1)
+        return R + 1
+      else:
+        return -1
+
+  def subtree_add(node: TreeNode, dist: int):
+    if not node:
+      return
+    elif node is target:
+      ans.append(node.val)
+    else:
+      subtree_add(node.left, dist + 1)
+      subtree_add(node.right, dist + 1)
+
+  dfs(root)
+  return ans
+
+
 if __name__ == "__main__":
   t1 = TreeNode(3)
   t2 = TreeNode(9)
@@ -462,6 +505,7 @@ if __name__ == "__main__":
   print("preOrder (iterative):", preOrderTraversalIter(t1))
   print("postOrder (recursive)", postOrderTraversal(t1))
   print("zigzag:", zigzagTraversal(t1))
+  print("All nodes distance K from target:", distance_k(t1, t5, 2))
   print("sum of left leaves:", sumOfLeftLeaves(t1))
   print("average of levels:", averageOfLevels(t1))
   print("has path sum?", hasPathSum(t1, 19))
