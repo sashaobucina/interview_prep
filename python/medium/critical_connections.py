@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 """
 Find all the connections that if disconnected, would lead to a disjoint graph / topology
 """
@@ -16,44 +18,44 @@ def check_disconnected(adj_list, connection, numOfServers):
     serv1, serv2 = connection
     adj_list[serv1].remove(serv2)
     adj_list[serv2].remove(serv1)
-    
+
     # test if graph connected
     res = is_connected(adj_list, numOfServers)
-    
+
     # add connection back
     adj_list[serv1].append(serv2)
     adj_list[serv2].append(serv1)
 
     # return connectivity status
     return not res
-    
-    
+
+
 def is_connected(adj_list, numOfServers):
     visited = [False] * (numOfServers + 1)
-    
+
     dfs(adj_list, visited, 1)
-    
+
     for i in range(1, numOfServers + 1):
         if not visited[i]:
             return False
     return True
-    
-    
-def dfs(adj_list, visited, node):
-    visited[node] = True
-    
-    for i in range(len(adj_list[node])):
-        if not visited[adj_list[node][i]]:
-            dfs(adj_list, visited, adj_list[node][i])
-    
+
+
+def dfs(adj_list, visited, server):
+    visited[server] = True
+
+    for i in range(len(adj_list[server])):
+        if not visited[adj_list[server][i]]:
+            dfs(adj_list, visited, adj_list[server][i])
+
 def buildAdjList(connections, numOfServers):
-    adj_list = [[] for i in range(0, numOfServers + 1)]
+    adj_list = defaultdict(list)
     for connection in connections:
         serv1, serv2 = connection
         adj_list[serv1].append(serv2)
         adj_list[serv2].append(serv1)
     return adj_list
-    
+
 
 if __name__ == "__main__":
   connections = [[1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [2, 8], [2, 6], [1, 9]]
