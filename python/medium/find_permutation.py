@@ -11,6 +11,23 @@ On the other hand, now your job is to find the lexicographically smallest permut
 could refer to the given secret signature in the input.
 """
 def findPermutation(s: str) -> list:
+  res, stk = [], []
+  n = len(s)
+
+  for i in range(1, n + 1):
+    if s[i - 1] == "I":
+      res.append(i)
+      while len(stk) > 0:
+        res.append(stk.pop())
+    else:
+      stk.append(i)
+
+  stk.append(n + 1)
+  while len(stk) > 0:
+    res.append(stk.pop())
+  return res
+
+def findPermutationBacktracking(s: str) -> list:
   res = []
   n = len(s)
   usedNums = [False] * (n+2)
@@ -41,4 +58,6 @@ def findPermutation(s: str) -> list:
   return []
 
 if __name__ == "__main__":
-  print(findPermutation("DDIIDI"))    # expected: [2, 1, 3]
+  print(findPermutationBacktracking("DI"))    # expected: [2, 1, 3]
+  print(findPermutation("IIIIIIDDDDIIIIIIII"))
+  # expected: [1, 2, 3, 4, 5, 6, 11, 10, 9, 8, 7, 12, 13, 14, 15, 16, 17, 18, 19]
