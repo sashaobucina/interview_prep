@@ -485,6 +485,22 @@ def distance_k(root: TreeNode, target: TreeNode, k: int) -> list:
   return ans
 
 
+"""
+Given a Binary Search Tree (BST), convert it to a Greater Tree such that every key of the original 
+BST is changed to the original key plus sum of all keys greater than the original key in BST.
+"""
+def convertGreaterBST(root: TreeNode) -> TreeNode:
+  def incrementBST(node: TreeNode, val: int) -> int:
+    if not node:
+      return val
+
+    node.val += incrementBST(node.right, val)
+    return incrementBST(node.left, node.val)
+
+  incrementBST(root, 0)
+  return root
+
+
 if __name__ == "__main__":
   t1 = TreeNode(3)
   t2 = TreeNode(9)
@@ -500,7 +516,7 @@ if __name__ == "__main__":
   print("min depth:", minDepth(t1))
   print("inOrder:", inOrderTraversal(t1))
   print("levelOrder:", levelOrderTraversal(t1))
-  print("rever seLevelOrder:", reverseLevelOrderTraversal(t1))
+  print("reverseLevelOrder:", reverseLevelOrderTraversal(t1))
   print("preOrder (recursive):", preOrderTraversal(t1))
   print("preOrder (iterative):", preOrderTraversalIter(t1))
   print("postOrder (recursive)", postOrderTraversal(t1))
