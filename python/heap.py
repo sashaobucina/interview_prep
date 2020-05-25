@@ -144,6 +144,21 @@ class Heap:
     def __str__(self):
         return str(self.to_list())
 
+def heapsort(lst):
+    """
+    Classic heapsort algorithm.
+
+    Time complexity: O(nlogn)
+    Space complexity: O(n), for simplicity
+    """
+    min_heap = Heap(lst)
+
+    lst = []
+    while not min_heap.is_empty():
+        lst.append(min_heap.extract_top())
+
+    return lst
+
 
 if __name__ == "__main__":
     # min heap by default
@@ -162,3 +177,6 @@ if __name__ == "__main__":
         max_val = heap.extract_top()
         assert heap.is_heap()
         print(max_val, heap)
+
+    print("\n---- Heapsort")
+    print(heapsort([2 ,35, 6, 6, 7, 21, 6, 1, 3, 61, 7,1 ]))
