@@ -1,5 +1,6 @@
 import operator
 
+
 class Heap:
     """
     A class that satisfies the properties of a binary heap.
@@ -9,6 +10,7 @@ class Heap:
     - root node must be min/max among all child nodes of min/max heap
     - all subtrees follow the above conditions
     """
+
     def __init__(self, lst=[], comparator=operator.lt):
         self._heap = [None] + lst
         self.compare = comparator
@@ -114,10 +116,12 @@ class Heap:
             return True
 
         left, right = self._child(curr), self._child(curr, is_right=True)
-        res = self.compare(self._heap[curr], self._heap[left]) or self._heap[curr] == self._heap[left]
+        res = self.compare(
+            self._heap[curr], self._heap[left]) or self._heap[curr] == self._heap[left]
 
         if res and right <= self.size():
-            res = self.compare(self._heap[curr], self._heap[right]) or self._heap[curr] == self._heap[right]
+            res = self.compare(
+                self._heap[curr], self._heap[right]) or self._heap[curr] == self._heap[right]
 
         return res
 
@@ -158,4 +162,3 @@ if __name__ == "__main__":
         max_val = heap.extract_top()
         assert heap.is_heap()
         print(max_val, heap)
-
