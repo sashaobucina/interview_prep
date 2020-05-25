@@ -14,6 +14,7 @@ class Heap:
     def __init__(self, lst=[], comparator=operator.lt):
         self._heap = [None] + lst
         self.compare = comparator
+        self.size = len(lst)
 
         self._heapify()
 
@@ -28,7 +29,8 @@ class Heap:
         Time complexity: O(logn)
         """
         self._heap.append(value)
-        self._heapify_up(self.size())
+        self.size += 1
+        self._heapify_up(self.size)
 
     def get_top(self):
         """
@@ -45,6 +47,7 @@ class Heap:
         Time complexity: O(logn)
         """
         ret_val = self.get_top()
+        self.size -= 1
         self._heap[1] = self._heap[-1]
         self._heap.pop()
         self._heapify_down(1)
@@ -71,7 +74,7 @@ class Heap:
 
         Time complexity: O(logn)
         """
-        if self.size() <= 1:
+        if self.size <= 1:
             return
 
         while not self._is_leaf(curr):
@@ -79,7 +82,7 @@ class Heap:
 
             # check whether need to propogate further down
             child = left
-            if right <= self.size() and self.compare(self._heap[right], self._heap[left]):
+            if right <= self.size and self.compare(self._heap[right], self._heap[left]):
                 child = right
             if self.compare(self._heap[curr], self._heap[child]):
                 return
@@ -94,12 +97,8 @@ class Heap:
 
         Time complexity: O(n)
         """
-        for idx in range(self.size() // 2, 0, -1):
+        for idx in range(self.size // 2, 0, -1):
             self._heapify_down(idx)
-
-    def size(self):
-        """ Get the size of the heap. """
-        return len(self._heap) - 1
 
     def to_list(self):
         """ Get the underlying list structure of the heap. """
@@ -119,7 +118,7 @@ class Heap:
         res = self.compare(
             self._heap[curr], self._heap[left]) or self._heap[curr] == self._heap[left]
 
-        if res and right <= self.size():
+        if res and right <= self.size:
             res = self.compare(
                 self._heap[curr], self._heap[right]) or self._heap[curr] == self._heap[right]
 
@@ -127,7 +126,7 @@ class Heap:
 
     def _is_leaf(self, pos):
         """ Check whether the position is a leaf node. """
-        return (2 * pos) > self.size()
+        return (2 * pos) > self.size
 
     def _parent(self, pos):
         """ Get the parent node given a position in the heap. """
@@ -144,20 +143,22 @@ class Heap:
     def __str__(self):
         return str(self.to_list())
 
+
 def heapsort(lst):
     """
     Classic heapsort algorithm.
 
     Time complexity: O(nlogn)
-    Space complexity: O(n), for simplicity
     """
-    min_heap = Heap(lst)
+    max_heap = Heap(lst, comparator=operator.gt)
 
-    lst = []
-    while not min_heap.is_empty():
-        lst.append(min_heap.extract_top())
+    n = max_heap.size
+    for i in range(n, 0, -1):
+        max_heap._swap(1, i)
+        max_heap.size -= 1
+        max_heap._heapify_down(1)
 
-    return lst
+    return max_heap.to_list()
 
 
 if __name__ == "__main__":
@@ -179,4 +180,4 @@ if __name__ == "__main__":
         print(max_val, heap)
 
     print("\n---- Heapsort")
-    print(heapsort([2 ,35, 6, 6, 7, 21, 6, 1, 3, 61, 7,1 ]))
+    print(heapsort([2, 35, 6, 6, 7, 21, 6, 1, 3, 61, 7, 1]))
