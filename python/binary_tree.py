@@ -500,6 +500,34 @@ def convertGreaterBST(root: TreeNode) -> TreeNode:
   incrementBST(root, 0)
   return root
 
+"""
+Given a BST, return a list containing all nodes from both trees sorted in ascending order.
+"""
+def getAllElements(root1: TreeNode, root2: TreeNode) -> list:
+  # perform inorder traversal on each to ensure sorted
+  arr1 = inOrderTraversal(root1)
+  arr2 = inOrderTraversal(root2)
+
+  # merge the two sorted lists
+  lst = []
+  i, j = 0, 0
+  while len(lst) < len(arr1) + len(arr2):
+    if i == len(arr1):
+      lst.append(arr2[j])
+      j += 1
+    elif j == len(arr2):
+      lst.append(arr1[i])
+      i += 1
+    else:
+      if arr1[i] < arr2[j]:
+        lst.append(arr1[i])
+        i += 1
+      else:
+        lst.append(arr2[j])
+        j += 1
+
+  return lst
+
 
 if __name__ == "__main__":
   t1 = TreeNode(3)
