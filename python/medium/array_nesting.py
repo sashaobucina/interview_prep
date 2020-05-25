@@ -7,7 +7,7 @@ MAX_INT = sys.maxsize
 
 def array_nesting(nums: List[int]) -> int:
     """
-    A zero-indexed array A of length N contains all integers from 0 to N-1. 
+    # 565: A zero-indexed array A of length N contains all integers from 0 to N-1. 
     Find and return the longest length of set S, where S[i] = {A[i], A[A[i]], A[A[A[i]]], ... } 
     subjected to the rule below.
 

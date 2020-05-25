@@ -501,7 +501,7 @@ def convertGreaterBST(root: TreeNode) -> TreeNode:
   return root
 
 """
-Given a BST, return a list containing all nodes from both trees sorted in ascending order.
+# 1305: Given a BST, return a list containing all nodes from both trees sorted in ascending order.
 """
 def getAllElements(root1: TreeNode, root2: TreeNode) -> list:
   # perform inorder traversal on each to ensure sorted
