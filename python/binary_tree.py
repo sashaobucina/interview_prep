@@ -625,6 +625,25 @@ def build_tree_inorder_postorder(inorder: List[int], postorder: List[int]) -> Tr
     return _construct(0, len(inorder) - 1, postorder, len(inorder) - 1)[0]
 
 
+def prune_tree(root: TreeNode) -> TreeNode:
+    """
+    # 814: We are given the head node root of a binary tree, where additionally every node's value is either a 0 or a 1.
+    Return the same tree where every subtree (of the given tree) not containing a 1 has been removed.
+    """
+    def _prune(root: TreeNode) -> TreeNode:
+        if not root:
+            return None
+
+        root.left = _prune(root.left)
+        root.right = _prune(root.right)
+
+        if root.val == 1 or root.left or root.right:
+            return root
+        return None
+
+    return _prune(root)
+
+
 if __name__ == "__main__":
     t1 = TreeNode(3)
     t2 = TreeNode(9)
@@ -664,3 +683,12 @@ if __name__ == "__main__":
     bt = build_tree_inorder_postorder(inorder, postorder)
     assert inorder == inOrderTraversal(bt)
     assert postorder == postOrderTraversal(bt)
+
+    t1 = TreeNode(1)
+    t2 = TreeNode(0)
+    t3 = TreeNode(0)
+    t4 = TreeNode(1)
+    t1.right = t2
+    t2.left = t3
+    t2.right = t4
+    assert prune_tree(t1).right.left is None
