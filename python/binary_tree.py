@@ -580,7 +580,7 @@ def getAllElements(root1: TreeNode, root2: TreeNode) -> list:
     return lst
 
 
-def build_tree(preorder: List[int], inorder: List[int]) -> TreeNode:
+def build_tree_preorder_inorder(preorder: List[int], inorder: List[int]) -> TreeNode:
     """ # 105: Given preorder and inorder traversal of a tree, construct the binary tree. """
     d = {}
     for i, e in enumerate(inorder):
@@ -600,6 +600,29 @@ def build_tree(preorder: List[int], inorder: List[int]) -> TreeNode:
         return root, pre_idx
 
     return _construct(0, len(inorder) - 1, preorder, 0)[0]
+
+
+def build_tree_inorder_postorder(inorder: List[int], postorder: List[int]) -> TreeNode:
+    """ # 106: Given inorder and postorder traversal of a tree, construct the binary tree. """
+    d = {}
+    for i, e in enumerate(inorder):
+        d[e] = i
+
+    def _construct(start: int, end: int, postorder: List[int], post_idx: int) -> Tuple[TreeNode, int]:
+        if start > end:
+            return None, post_idx
+
+        root = TreeNode(postorder[post_idx])
+        in_idx = d[root.val]
+        post_idx -= 1
+
+        root.right, post_idx = _construct(in_idx + 1, end, postorder, post_idx)
+        root.left, post_idx = _construct(
+            start, in_idx - 1, postorder, post_idx)
+
+        return root, post_idx
+
+    return _construct(0, len(inorder) - 1, postorder, len(inorder) - 1)[0]
 
 
 if __name__ == "__main__":
@@ -633,6 +656,11 @@ if __name__ == "__main__":
     print("Lowest common ancestor:", lowestCommonAncestor(t1, t3, t5).val)
 
     preorder, inorder = [3, 9, 20, 15, 7], [9, 3, 15, 20, 7]
-    bt = build_tree(preorder, inorder)
+    bt = build_tree_preorder_inorder(preorder, inorder)
     assert inorder == inOrderTraversal(bt)
     assert preorder == preOrderTraversal(bt)
+
+    inorder, postorder = [9, 3, 15, 20, 7], [9, 15, 7, 20, 3]
+    bt = build_tree_inorder_postorder(inorder, postorder)
+    assert inorder == inOrderTraversal(bt)
+    assert postorder == postOrderTraversal(bt)
