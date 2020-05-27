@@ -6,7 +6,6 @@ def range_bitwise_and(m: int, n: int) -> int:
     i = 0
     while m != n:
         m, n, i = m >> 1, n >> 1, i + 1
-    print(m, i)
     return m << i
 
 
