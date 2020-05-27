@@ -37,6 +37,36 @@ def validate_utf_8(data: List[int]) -> bool:
     return n_bytes == 0
 
 
+def validate_utf_8_mask(data: List[int]) -> bool:
+    """
+    # 393: Solving same problem but now using bit manipulation.
+    """
+    n_bytes = 0
+
+    mask1 = 1 << 7
+    mask2 = 1 << 6
+    for num in data:
+        if n_bytes == 0:
+            mask = 1 << 7
+
+            while mask & num:
+                n_bytes += 1
+                mask >>= 1
+
+            if n_bytes == 0:
+                continue
+
+            if n_bytes == 1 or n_bytes > 4:
+                return False
+        else:
+            if not (num & mask1 and not (num & mask2)):
+                return False
+
+        n_bytes -= 1
+
+    return n_bytes == 0
+
+
 def int_to_byte(x: int) -> str:
     """ Return the byte representation (base 2) of an integer. """
     return "{0:08b}".format(x)
@@ -45,11 +75,14 @@ def int_to_byte(x: int) -> str:
 if __name__ == "__main__":
     data = [25]
     assert validate_utf_8(data)
+    assert validate_utf_8_mask(data)
 
     data = [197, 130, 1]
     assert validate_utf_8(data)
+    assert validate_utf_8_mask(data)
 
     data = [235, 140, 4]
     assert not validate_utf_8(data)
+    assert not validate_utf_8_mask(data)
 
     print("Passed all tests!")
