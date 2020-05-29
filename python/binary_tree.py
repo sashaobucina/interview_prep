@@ -644,6 +644,28 @@ def prune_tree(root: TreeNode) -> TreeNode:
     return _prune(root)
 
 
+def validate_BST(root: TreeNode) -> bool:
+    """
+    # 98: Given a binary tree, determine if it is a valid binary search tree (BST).
+
+    Assume a BST is defined as follows:
+    - The left subtree of a node contains only nodes with keys less than the node's key.
+    - The right subtree of a node contains only nodes with keys greater than the node's key.
+    - Both the left and right subtrees must also be binary search trees.
+    """
+    def _is_valid(node: TreeNode, lower=float("-inf"), upper=float("inf")) -> bool:
+        if not node:
+            return True
+
+        val = node.val
+        if val <= lower or val >= upper:
+            return False
+
+        return _is_valid(node.left, lower, val) and _is_valid(node.right, val, upper)
+
+    return _is_valid(root)
+
+
 if __name__ == "__main__":
     t1 = TreeNode(3)
     t2 = TreeNode(9)
