@@ -666,6 +666,51 @@ def validate_BST(root: TreeNode) -> bool:
     return _is_valid(root)
 
 
+def is_symmetric_rec(root: TreeNode) -> bool:
+    """
+    # 101: Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
+
+    NOTE: this is the recursive solution
+    """
+    def _is_mirror(t1: TreeNode, t2: TreeNode) -> bool:
+        if not t1 and not t2:
+            return True
+        if not t1 or not t2:
+            return False
+
+        return t1.val == t2.val and _is_mirror(t1.left, t2.right) and _is_mirror(t1.right, t2.left)
+
+    return _is_mirror(root, root)
+
+
+def is_symmetric_iter(root: TreeNode) -> bool:
+    """
+    # 101: Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
+
+    NOTE: this is the iterative solution
+    """
+    if not root:
+        return True
+    if not root.left and not root.right:
+        return True
+
+    q = deque([root.right, root.left])
+    while q:
+        left, right = q.pop(), q.pop()
+
+        if not left and not right:
+            continue
+        if not left or not right or left.val != right.val:
+            return False
+
+        q.appendleft(left.left)
+        q.appendleft(right.right)
+        q.appendleft(left.right)
+        q.appendleft(right.left)
+
+    return True
+
+
 if __name__ == "__main__":
     t1 = TreeNode(3)
     t2 = TreeNode(9)
