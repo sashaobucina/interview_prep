@@ -91,23 +91,26 @@ def isBalancedHelper(root: TreeNode) -> int:
 
 
 def levelOrderTraversal(root: TreeNode) -> list:
+    """
+    # 102: Given a binary tree, return the level order traversal of its nodes' values. 
+    (ie, from left to right, level by level).
+    """
     if not root:
         return []
-    res = []
-    Q = []
-    Q.append(root)
 
-    while len(Q) > 0:
-        level_size = len(Q)
-        curr_level = []
-        for i in range(level_size):
-            root = Q.pop(0)
-            if root.left:
-                Q.append(root.left)
-            if root.right:
-                Q.append(root.right)
-            curr_level.append(root.val)
-        res.append(curr_level)
+    res = []
+    q = deque([root])
+    while q:
+        level = []
+        for i in range(len(q)):
+            curr = q.pop()
+            if curr.left:
+                q.appendleft(curr.left)
+            if curr.right:
+                q.appendleft(curr.right)
+            level.append(curr.val)
+        res.append(level)
+
     return res
 
 
