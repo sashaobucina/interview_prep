@@ -204,19 +204,17 @@ def sumOfLeftLeaves(root: TreeNode) -> int:
         return right + left
 
 
-"""
-Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
-"""
-
-
-def sortedArrayToBST(nums: list) -> TreeNode:
-    if len(nums) == 0:
+def sorted_arr_to_BST(nums: list) -> TreeNode:
+    """
+    #108; Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
+    """
+    if not nums:
         return None
 
     mid = len(nums) // 2
     root = TreeNode(nums[mid])
-    root.left = sortedArrayToBST(nums[:mid])
-    root.right = sortedArrayToBST(nums[mid+1:])
+    root.left = sorted_arr_to_BST(nums[0:mid])
+    root.right = sorted_arr_to_BST(nums[mid+1:])
     return root
 
 
