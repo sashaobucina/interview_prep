@@ -89,12 +89,15 @@ class LinkedList:
     return res
 
   def has_cycle(self) -> bool:
+    """ # 141: Given a linked list, determine if it has a cycle in it. """
     slow_ptr, fast_ptr = self.head, self.head
-    while slow_ptr and fast_ptr and fast_ptr.next:
-      fast_ptr = fast_ptr.next.next
-      slow_ptr = slow_ptr.next
+    while fast_ptr and fast_ptr.next:
       if fast_ptr is slow_ptr:
         return True
+
+      fast_ptr = fast_ptr.next.next
+      slow_ptr = slow_ptr.next
+
     return False
 
   """
