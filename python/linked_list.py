@@ -1,389 +1,409 @@
 class LinkedListNode:
-  def __init__(self, data: int):
-    self.data = data
-    self.next = None
+    def __init__(self, data: int):
+        self.data = data
+        self.next = None
+
 
 class LinkedList:
-  def __init__(self):
-    self.head = None
-    self.size = 0
+    def __init__(self):
+        self.head = None
+        self.size = 0
 
-  def get(self, index: int) -> int:
-    count = 0
-    curr = self.head
-    while (curr):
-      if count == index:
-        return curr.val
-      curr = curr.next
-    return -1
+    def get(self, index: int) -> int:
+        count = 0
+        curr = self.head
+        while (curr):
+            if count == index:
+                return curr.val
+            curr = curr.next
+        return -1
 
-  def addAtHead(self, x: int) -> None:
-    if self.head is None:
-      self.head = LinkedListNode(x)
-    else:
-      temp = self.head
-      self.head = LinkedListNode(x)
-      self.head.next = temp
-    self.size += 1
+    def addAtHead(self, x: int) -> None:
+        if self.head is None:
+            self.head = LinkedListNode(x)
+        else:
+            temp = self.head
+            self.head = LinkedListNode(x)
+            self.head.next = temp
+        self.size += 1
 
-  def addAtTail(self, x: int) -> None:
-    if (self.head is None):
-      self.head = LinkedListNode(x)
-    else:
-      curr = self.head
-      while (curr.next):
-        curr = curr.next
-      curr.next = LinkedListNode(x)
-    self.size += 1
+    def addAtTail(self, x: int) -> None:
+        if (self.head is None):
+            self.head = LinkedListNode(x)
+        else:
+            curr = self.head
+            while (curr.next):
+                curr = curr.next
+            curr.next = LinkedListNode(x)
+        self.size += 1
 
-  def addAtIndex(self, x: int, index: int) -> None:
-    if (index == 0):
-      self.addAtHead(x)
-    elif (index == self.size):
-      self.addAtTail(x)
-    elif (0 < index < self.size):
-      count = 0
-      prev = None
-      curr = self.head
-      while curr:
-        if count == index:
-          node = LinkedListNode(x)
-          prev.next = node
-          node.next = curr
-          self.size += 1
-          return
-        prev = curr
-        curr = curr.next
-        count += 1
-    else:
-      raise IndexError("Index out of bounds")
+    def addAtIndex(self, x: int, index: int) -> None:
+        if (index == 0):
+            self.addAtHead(x)
+        elif (index == self.size):
+            self.addAtTail(x)
+        elif (0 < index < self.size):
+            count = 0
+            prev = None
+            curr = self.head
+            while curr:
+                if count == index:
+                    node = LinkedListNode(x)
+                    prev.next = node
+                    node.next = curr
+                    self.size += 1
+                    return
+                prev = curr
+                curr = curr.next
+                count += 1
+        else:
+            raise IndexError("Index out of bounds")
 
-  def deleteAtIndex(self, index: int) -> None:
-    if (0 <= index < self.size):
-      count = 0
-      curr = self.head
-      prev = None
-      while curr:
-        if count == index:
-          if prev:
-            prev.next = curr.next
-          else:
-            self.head = curr.next
-          self.size -= 1
-          return
-        prev = curr
-        curr = curr.next
-        count += 1
-    else:
-      raise IndexError("Index out of bounds")
+    def deleteAtIndex(self, index: int) -> None:
+        if (0 <= index < self.size):
+            count = 0
+            curr = self.head
+            prev = None
+            while curr:
+                if count == index:
+                    if prev:
+                        prev.next = curr.next
+                    else:
+                        self.head = curr.next
+                    self.size -= 1
+                    return
+                prev = curr
+                curr = curr.next
+                count += 1
+        else:
+            raise IndexError("Index out of bounds")
 
-  def __str__(self) -> str:
-    if self.head is None:
-      return ""
-    res = ""
-    curr = self.head
-    while curr.next:
-      res += "{} -> ".format(curr.data)
-      curr = curr.next
-    res += "{}".format(curr.data)
-    return res
+    def __str__(self) -> str:
+        if self.head is None:
+            return ""
+        res = ""
+        curr = self.head
+        while curr.next:
+            res += "{} -> ".format(curr.data)
+            curr = curr.next
+        res += "{}".format(curr.data)
+        return res
 
-  def has_cycle(self) -> bool:
-    """ # 141: Given a linked list, determine if it has a cycle in it. """
-    slow_ptr, fast_ptr = self.head, self.head
-    while fast_ptr and fast_ptr.next:
-      if fast_ptr is slow_ptr:
-        return True
+    def has_cycle(self) -> bool:
+        """ # 141: Given a linked list, determine if it has a cycle in it. """
+        slow_ptr, fast_ptr = self.head, self.head
+        while fast_ptr and fast_ptr.next:
+            if fast_ptr is slow_ptr:
+                return True
 
-      fast_ptr = fast_ptr.next.next
-      slow_ptr = slow_ptr.next
+            fast_ptr = fast_ptr.next.next
+            slow_ptr = slow_ptr.next
 
-    return False
-
-  """
-  Returns the start of cycle detection, and None if there is no cycle.
-
-  Intuition:
-  When cycle detected, Slow pointer will meet fast pointer if you start slow pointer at the head
-  and increment them both by the same speed, 1.
-  """
-  def where_is_cycle(self):
-    slow_ptr, fast_ptr = self.head, self.head
-    while slow_ptr and fast_ptr and fast_ptr.next:
-      fast_ptr = fast_ptr.next.next
-      slow_ptr = slow_ptr.next
-      if fast_ptr is slow_ptr:
-        # Cycle detected
-        slow_ptr = self.head
-        while slow_ptr is not fast_ptr:
-          slow_ptr = slow_ptr.next
-          fast_ptr = fast_ptr.next
-        return slow_ptr
-    return None
-
-  def get_middle_node(self):
-    fast_ptr, short_ptr = self.head, self.head
-    while fast_ptr and fast_ptr.next:
-      fast_ptr = fast_ptr.next.next
-      short_ptr = short_ptr.next
-    return short_ptr
-
-  def reverse(self) -> None:
-    prev, curr = None, self.head
-    while curr:
-      next = curr.next
-      curr.next = prev
-      prev = curr
-      curr = next
-    self.head = prev
-
-  """
-  Reverse a linked list from position m to n. Do it in one-pass.
-
-  NOTE: 1 ≤ m ≤ n ≤ length of list.
-  """
-  def reverseBetween(self, m: int, n: int) -> None:
-    if m == n:
-      return
-
-    curr, prev = self.head, None
-    while m > 1:
-      prev = curr
-      curr = curr.next
-      m, n = m - 1, n - 1
-
-    con, tail = prev, curr
-
-    while n:
-      temp = curr.next
-      curr.next = prev
-      prev = curr
-      curr = temp
-      n -= 1
-
-    if con:
-      con.next = prev
-    else:
-      self.head = prev
-    tail.next = curr
-
-  def aug_reverse(self, second_half):
-    prev, next = None, None
-    curr = second_half
-    while curr:
-      next = curr.next
-      curr.next = prev
-      prev = curr
-      curr = next
-    second_half = prev
-    return second_half
-
-  def is_palindrome(self) -> bool:
-    slow_ptr, fast_ptr = self.head, self.head
-    prev_of_slow_ptr = None
-    mid_node = None
-    res = True
-
-    if slow_ptr and slow_ptr.next:
-      #  Get middle of the list
-      while fast_ptr and fast_ptr.next:
-        fast_ptr = fast_ptr.next.next
-        prev_of_slow_ptr = slow_ptr
-        slow_ptr = slow_ptr.next
-
-      # Intermediate storing of variable (middle case)
-      if fast_ptr:
-        mid_node = slow_ptr
-        slow_ptr = slow_ptr.next
-
-      # Reverse second half and compare it with the first half
-      second_half = slow_ptr
-      prev_of_slow_ptr.next = None   # Terminate the first half
-      second_half = self.aug_reverse(second_half)
-      res = self.compare_nodes(self.head, second_half)
-
-      # Construct original list back
-      second_half = self.aug_reverse(second_half)
-
-      if mid_node:
-        prev_of_slow_ptr.next = mid_node
-        mid_node.next = second_half
-      else:
-        prev_of_slow_ptr.next = second_half
-
-    return res
-
-  def compare_nodes(self, node1: LinkedListNode, node2: LinkedListNode) -> bool:
-    while node1 and node2:
-      if node1.data == node2.data:
-        node1 = node1.next
-        node2 = node2.next
-      else:
-        return False
-    return not node1 and not node2
-
-  def __eq__(self, other):
-    head1 = self.head
-    head2 = other.head
-    while head1 and head2:
-      if head1.data == head2.data:
-        head1 = head1.next
-        head2 = head2.next
-      else:
         return False
 
-    if not head1 and not head2:
-      return True
-    return False
+    """
+    Returns the start of cycle detection, and None if there is no cycle.
+
+    Intuition:
+    When cycle detected, Slow pointer will meet fast pointer if you start slow pointer at the head
+    and increment them both by the same speed, 1.
+    """
+
+    def where_is_cycle(self):
+        slow_ptr, fast_ptr = self.head, self.head
+        while slow_ptr and fast_ptr and fast_ptr.next:
+            fast_ptr = fast_ptr.next.next
+            slow_ptr = slow_ptr.next
+            if fast_ptr is slow_ptr:
+                # Cycle detected
+                slow_ptr = self.head
+                while slow_ptr is not fast_ptr:
+                    slow_ptr = slow_ptr.next
+                    fast_ptr = fast_ptr.next
+                return slow_ptr
+        return None
+
+    def get_middle_node(self):
+        fast_ptr, short_ptr = self.head, self.head
+        while fast_ptr and fast_ptr.next:
+            fast_ptr = fast_ptr.next.next
+            short_ptr = short_ptr.next
+        return short_ptr
+
+    def reverse(self) -> None:
+        prev, curr = None, self.head
+        while curr:
+            next = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next
+        self.head = prev
+
+    """
+    Reverse a linked list from position m to n. Do it in one-pass.
+
+    NOTE: 1 ≤ m ≤ n ≤ length of list.
+    """
+
+    def reverseBetween(self, m: int, n: int) -> None:
+        if m == n:
+            return
+
+        curr, prev = self.head, None
+        while m > 1:
+            prev = curr
+            curr = curr.next
+            m, n = m - 1, n - 1
+
+        con, tail = prev, curr
+
+        while n:
+            temp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = temp
+            n -= 1
+
+        if con:
+            con.next = prev
+        else:
+            self.head = prev
+        tail.next = curr
+
+    def _reverse(self, node):
+        prev, next = None, None
+        curr = node
+        while curr:
+            next = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next
+        return node
+
+    def is_palindrome(self) -> bool:
+        """
+        # 234: Given a singly linked list, determine if it is a palindrome.
+
+        Time complexity - O(n)
+        Space complexity - O(1)
+        """
+        if not self.head or not self.head.next:
+            return True
+
+        slowptr, fastptr = self.head, self.head
+        mid, prev = None, None
+
+        # get to the middle of linked list
+        while fastptr and fastptr.next:
+            fastptr = fastptr.next.next
+            prev = slowptr
+            slowptr = slowptr.next
+
+        # reverse second half and compare the two halves
+        if fastptr:
+            mid = slowptr
+            slowptr = slowptr.next
+        second_half = self._reverse(slowptr)
+        prev.next = None
+        res = compare_ll(self.head, second_half)
+
+        # reconstruct linked list
+        if mid:
+            prev.next = mid
+            mid.next = self._reverse(second_half)
+        else:
+            prev.next = self._reverse(second_half)
+
+        return res
+
+    def __eq__(self, other):
+        head1 = self.head
+        head2 = other.head
+        while head1 and head2:
+            if head1.data == head2.data:
+                head1 = head1.next
+                head2 = head2.next
+            else:
+                return False
+
+        if not head1 and not head2:
+            return True
+        return False
+
 
 def get_count(node: LinkedListNode) -> int:
-  count = 0
-  curr = node
-  while curr:
-    count += 1
-    curr = curr.next
-  return count
+    count = 0
+    curr = node
+    while curr:
+        count += 1
+        curr = curr.next
+    return count
+
 
 def get_intersection_node(headA: LinkedListNode, headB: LinkedListNode) -> LinkedListNode:
-  c1 = get_count(headA)
-  c2 = get_count(headB)
-  diff = abs(c1 - c2)
-  if c1 > c2:
-    curr1, curr2 = headA, headB
-  else:
-    curr1, curr2 = headB, headA
+    c1 = get_count(headA)
+    c2 = get_count(headB)
+    diff = abs(c1 - c2)
+    if c1 > c2:
+        curr1, curr2 = headA, headB
+    else:
+        curr1, curr2 = headB, headA
 
-  # Traverse the bigger list by the difference of the lengths
-  while diff > 0:
-    curr1 = curr1.next
-    diff -= 1
+    # Traverse the bigger list by the difference of the lengths
+    while diff > 0:
+        curr1 = curr1.next
+        diff -= 1
 
-  # Traverse both lists in parallel until we come across common node
-  while curr1 and curr2:
-    if curr1 is curr2:
-      return curr1
-    curr1 = curr1.next
-    curr2 = curr2.next
-  return None
+    # Traverse both lists in parallel until we come across common node
+    while curr1 and curr2:
+        if curr1 is curr2:
+            return curr1
+        curr1 = curr1.next
+        curr2 = curr2.next
+    return None
+
 
 def add_two_numbers(l1: LinkedListNode, l2: LinkedListNode) -> LinkedListNode:
-  remainder = 0
-  curr1, curr2 = l1, l2
-  l3, front = None, None
+    remainder = 0
+    curr1, curr2 = l1, l2
+    l3, front = None, None
 
-  while curr1 or curr2:
-    val1 = curr1.data if curr1 else 0
-    val2 = curr2.data if curr2 else 0
-    currSum = val1 + val2 + remainder
+    while curr1 or curr2:
+        val1 = curr1.data if curr1 else 0
+        val2 = curr2.data if curr2 else 0
+        currSum = val1 + val2 + remainder
 
-    if currSum > 9:
-      currSum = currSum % 10
-      remainder = 1
-    else:
-      remainder = 0
+        if currSum > 9:
+            currSum = currSum % 10
+            remainder = 1
+        else:
+            remainder = 0
 
-    newNode = LinkedList(currSum)
-    if l3:
-      l3.next = newNode
-      l3 = newNode
-    else:
-      l3 = newNode
-      front = newNode
+        newNode = LinkedList(currSum)
+        if l3:
+            l3.next = newNode
+            l3 = newNode
+        else:
+            l3 = newNode
+            front = newNode
 
-    curr1 = curr1.next if curr1 else None
-    curr2 = curr2.next if curr2 else None
+        curr1 = curr1.next if curr1 else None
+        curr2 = curr2.next if curr2 else None
 
-  if remainder == 1:
-    l3.next = LinkedListNode(1)
-  return front
+    if remainder == 1:
+        l3.next = LinkedListNode(1)
+    return front
+
 
 def reverseList(head: LinkedListNode):
-  curr, prev = head, None
-  while curr:
-    tmp = curr.next
-    curr.next = prev
-    curr, prev = tmp, curr
-  return prev
+    curr, prev = head, None
+    while curr:
+        tmp = curr.next
+        curr.next = prev
+        curr, prev = tmp, curr
+    return prev
+
 
 def reverseListRec(head: LinkedListNode):
-  if not head or not head.next:
-    return head
+    if not head or not head.next:
+        return head
 
-  p = reverseListRec(head.next)
-  head.next.next = head
-  head.next = None
-  return p
+    p = reverseListRec(head.next)
+    head.next.next = head
+    head.next = None
+    return p
+
 
 """
 Write a function to delete a node (except the tail) in a singly linked list, 
 given only access to that node.
 
 NOTE:
-  - The linked list will have at least two elements.
-  - All of the nodes' values will be unique.
-  - The given node will not be the tail and it will always be a valid node of the linked list.
+- The linked list will have at least two elements.
+- All of the nodes' values will be unique.
+- The given node will not be the tail and it will always be a valid node of the linked list.
 """
-def deleteNode(node: LinkedListNode) -> None:
-  prev = node
-  while node.next:
-    node.val = node.next.val
-    prev = node
-    node = node.next
 
-  prev.next = None
+
+def deleteNode(node: LinkedListNode) -> None:
+    prev = node
+    while node.next:
+        node.val = node.next.val
+        prev = node
+        node = node.next
+
+    prev.next = None
+
 
 """
 Given a linked list, remove the n-th node from the end of list and return its head.
 
 NOTE: n will always be valid (0 > n > len(linked list)). Solution is done in one-pass.
 """
+
+
 def removeNthFromEnd(head: LinkedListNode, n: int):
-  dummy = LinkedListNode(0)
-  dummy.next = head
-  first, second = dummy, dummy
+    dummy = LinkedListNode(0)
+    dummy.next = head
+    first, second = dummy, dummy
 
-  for i in range(n + 1):
-    first = first.next
+    for i in range(n + 1):
+        first = first.next
 
-  while first:
-    first = first.next
-    second = second.next
+    while first:
+        first = first.next
+        second = second.next
 
-  second.next = second.next.next
-  return dummy.next
+    second.next = second.next.next
+    return dummy.next
+
 
 """
 """
+
+
 def swap_pairs(head: LinkedListNode):
-  if not head:
-    return None
+    if not head:
+        return None
 
-  prev, curr = None, head
-  while curr and curr.next:
-    if not prev:
-      head = curr.next
-    else:
-      prev.next = curr.next
+    prev, curr = None, head
+    while curr and curr.next:
+        if not prev:
+            head = curr.next
+        else:
+            prev.next = curr.next
 
-    # swap
-    curr.next.next, curr.next = curr, curr.next.next
+        # swap
+        curr.next.next, curr.next = curr, curr.next.next
 
-    # double iteration
-    prev = curr
-    curr = curr.next
-  
-  return head
+        # double iteration
+        prev = curr
+        curr = curr.next
 
+    return head
+
+
+def compare_ll(node1: LinkedListNode, node2: LinkedListNode) -> bool:
+    """ Check if two linked lists are the same by value. """
+    while node1 and node2:
+        if node1.data == node2.data:
+            node1 = node1.next
+            node2 = node2.next
+        else:
+            return False
+    return not node1 and not node2
 
 
 if __name__ == "__main__":
-  ll = LinkedList()
-  ll.addAtTail(1)
-  ll.addAtTail(2)
-  ll.addAtTail(3)
-  ll.addAtTail(4)
-  ll.addAtIndex(5, 4)
-  ll.is_palindrome() # expected: False
-  print(ll)
-  ll.reverseBetween(2, 4)
-  print(ll)
+    ll = LinkedList()
+    ll.addAtTail(1)
+    ll.addAtTail(2)
+    ll.addAtTail(3)
+    ll.addAtTail(4)
+    ll.addAtIndex(5, 4)
+    assert not ll.is_palindrome()
+    print(ll)
+    ll.reverseBetween(2, 4)
+    print(ll)
+
+    print("Passed all tests!")
