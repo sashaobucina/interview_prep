@@ -712,6 +712,23 @@ def is_symmetric_iter(root: TreeNode) -> bool:
     return True
 
 
+def kth_smallest_element(root: TreeNode, k: int) -> int:
+    """
+    # 230: Given a BST, write a function kthSmallest to find the kth smallest element in it.
+    """
+    def _inorder(node: TreeNode) -> None:
+        if not node:
+            return
+
+        _inorder(node.left)
+        lst.append(node.val)
+        _inorder(node.right)
+
+    lst = []
+    _inorder(root)
+    return lst[k - 1]
+
+
 if __name__ == "__main__":
     t1 = TreeNode(3)
     t2 = TreeNode(9)
@@ -760,3 +777,5 @@ if __name__ == "__main__":
     t2.left = t3
     t2.right = t4
     assert prune_tree(t1).right.left is None
+
+    print("Passed all tests!")
