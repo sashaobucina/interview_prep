@@ -1,9 +1,40 @@
 from typing import List
 
 
+def h_index(citations: List[int]) -> int:
+    """
+    # 274: Given an array of citations (each citation is a non-negative integer) of a researcher, 
+    write a function to compute the researcher's h-index.
+
+    According to the definition of h-index on Wikipedia: "A scientist has index h if h of his/her N 
+    papers have at least h citations each, and the other N − h papers have no more than h citations each."
+
+    NOTE: If there are several possible values for h, the maximum one is taken as the h-index.
+    """
+    if not citations:
+        return 0
+
+    N = len(citations)
+    buckets = [0] * (N + 1)
+
+    for i in range(N):
+        if citations[i] <= N:
+            buckets[citations[i]] += 1
+        else:
+            buckets[N] += 1
+
+    num_papers = 0
+    for i in range(N, -1, -1):
+        num_papers += buckets[i]
+        if num_papers >= i:
+            return i
+
+    return 0
+
+
 def h_index_II(citations: List[int]) -> int:
     """
-    # 274: Given an array of citations sorted in ascending order (each citation is a non-negative integer) 
+    # 275: Given an array of citations sorted in ascending order (each citation is a non-negative integer) 
     # of a researcher, write a function to compute the researcher's h-index.
 
     According to the definition of h-index on Wikipedia: "A scientist has index h if h of his/her N 
@@ -56,6 +87,9 @@ def h_index_II_linear(citations: List[int]) -> int:
 
 
 if __name__ == "__main__":
+    citations = [3, 0, 6, 1, 5]
+    assert h_index(citations) == 3
+
     citations = [0, 1, 2, 4, 5, 8, 10, 13]
     assert h_index_II_linear(citations) == h_index_II(citations) == 4
 
