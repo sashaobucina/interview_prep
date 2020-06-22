@@ -1,3 +1,4 @@
+from sys import maxsize
 from collections import deque
 from typing import List, Tuple
 
@@ -727,6 +728,32 @@ def kth_smallest_element(root: TreeNode, k: int) -> int:
     lst = []
     _inorder(root)
     return lst[k - 1]
+
+
+def max_path_sum(root: TreeNode) -> int:
+    """
+    # 124: Given a non-empty binary tree, find the maximum path sum.
+
+    For this problem, a path is defined as any sequence of nodes from some starting node to any node 
+    in the tree along the parent-child connections. The path must contain at least one node and does 
+    not need to go through the root.
+    """
+    def _helper(root: TreeNode) -> int:
+        if not root:
+            return 0
+
+        left = _helper(root.left)
+        right = _helper(root.right)
+
+        single_max = max(max(left, right) + root.val, root.val)
+        local_max = max(single_max, left + right + root.val)
+        global_max[0] = max(global_max[0], local_max)
+
+        return single_max
+
+    global_max = [-maxsize - 1]
+    _helper(root)
+    return global_max[0]
 
 
 if __name__ == "__main__":
