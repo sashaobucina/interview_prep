@@ -1,16 +1,24 @@
-"""
-Given a non-empty array of integers, every element appears twice except for one. Find that single one.
-"""
-def singleNumber(nums: list) -> int:
-  return 2 * sum(set(nums)) - sum(nums)
+from typing import List
 
-def singleNumberXOR(nums: list) -> int:
-  a = 0
-  for i in nums:
-    a ^= i
-  return a
+
+def singleNumber(nums: List[int]) -> int:
+    """
+    # 136: Given a non-empty array of integers, every element appears twice except for one. 
+    Find that single one.
+    """
+    return 2 * sum(set(nums)) - sum(nums)
+
+
+def singleNumberXOR(nums: List[int]) -> int:
+    a = 0
+    for i in nums:
+        a ^= i
+    return a
+
 
 if __name__ == "__main__":
-  arr = [2, 2, 4, 1, 1]
-  print(singleNumber(arr))
-  print(singleNumberXOR(arr))
+    nums = [2, 2, 4, 1, 1]
+    assert singleNumber(nums) == 4
+    assert singleNumberXOR(nums) == 4
+
+    print("Passed all tests!")
