@@ -756,6 +756,32 @@ def max_path_sum(root: TreeNode) -> int:
     return global_max[0]
 
 
+def diameter(root: TreeNode) -> int:
+    """
+    # 543: Given a binary tree, you need to compute the length of the diameter of the tree. 
+    The diameter of a binary tree is the length of the longest path between any two nodes in a tree. 
+    This path may or may not pass through the root.
+
+    NOTE: The length of path between two nodes is represented by the number of edges between them.
+    """
+    def _helper(node: TreeNode) -> int:
+        if not node:
+            return 0
+
+        left = _helper(node.left)
+        right = _helper(node.right)
+
+        # store the max path length so far
+        max_len[0] = max(max_len[0], left + right)
+
+        # propogate up the height of subtree
+        return 1 + max(left, right)
+
+    max_len = [0]
+    _helper(root)
+    return max_len[0]
+
+
 if __name__ == "__main__":
     t1 = TreeNode(3)
     t2 = TreeNode(9)
@@ -804,5 +830,7 @@ if __name__ == "__main__":
     t2.left = t3
     t2.right = t4
     assert prune_tree(t1).right.left is None
+
+    assert diameter(t1) == 2
 
     print("Passed all tests!")
