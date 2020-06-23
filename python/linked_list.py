@@ -394,6 +394,20 @@ def compare_ll(node1: LinkedListNode, node2: LinkedListNode) -> bool:
     return not node1 and not node2
 
 
+def middle_node(head: LinkedListNode) -> LinkedListNode:
+    """
+    # 876: Given a non-empty, singly linked list with head node head, return a middle node of linked list.
+
+    NOTE: If there are two middle nodes, return the second middle node.
+    """
+    slow, fast = head, head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    return slow
+
+
 if __name__ == "__main__":
     ll = LinkedList()
     ll.addAtTail(1)
