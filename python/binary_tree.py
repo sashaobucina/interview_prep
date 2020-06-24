@@ -782,6 +782,42 @@ def diameter(root: TreeNode) -> int:
     return max_len[0]
 
 
+def are_cousins(root: TreeNode, x: int, y: int) -> bool:
+    """
+    # 993: In a binary tree, the root node is at depth 0, and children of each depth k node are at depth k+1.
+
+    Two nodes of a binary tree are cousins if they have the same depth, but have different parents.
+
+    We are given the root of a binary tree with unique values, and the values x and y of two different
+    nodes in the tree.
+
+    Return true if and only if the nodes corresponding to the values x and y are cousins.
+    """
+    def _is_sibling(node: TreeNode, a: int, b: int) -> bool:
+        if not node:
+            return False
+
+        if node.left and node.right:
+            if (node.left.val == a and node.right.val == b) or (node.left.val == b and node.right.val == a):
+                return True
+
+        return (_is_sibling(node.left, a, b)) or (_is_sibling(node.right, a, b))
+
+    def _level(node: TreeNode, a: int, level: int) -> int:
+        if not node:
+            return 0
+        if node.val == a:
+            return level
+
+        l = _level(node.left, a, level + 1)
+        if l != 0:
+            return l
+
+        return _level(node.right, a, level + 1)
+
+    return ((_level(root, x, 0) == _level(root, y, 0)) and (not _is_sibling(root, x, y)))
+
+
 if __name__ == "__main__":
     t1 = TreeNode(3)
     t2 = TreeNode(9)
