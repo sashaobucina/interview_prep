@@ -818,6 +818,25 @@ def are_cousins(root: TreeNode, x: int, y: int) -> bool:
     return ((_level(root, x, 0) == _level(root, y, 0)) and (not _is_sibling(root, x, y)))
 
 
+def remove_leaf_nodes(root: TreeNode, target: int) -> TreeNode:
+    """
+    # 1325: Given a binary tree root and an integer target, delete all the leaf nodes with value target.
+
+    NOTE: Once you delete a leaf node with value target, if it's parent node becomes a leaf node and 
+    has the value target, it should also be deleted (you need to continue doing that until you can't).
+    """
+    if not root:
+        return None
+
+    root.left = remove_leaf_nodes(root.left)
+    root.right = remove_leaf_nodes(root.right)
+
+    if root.val == target and not root.left and not root.right:
+        return None
+
+    return root
+
+
 if __name__ == "__main__":
     t1 = TreeNode(3)
     t2 = TreeNode(9)
