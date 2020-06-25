@@ -864,6 +864,26 @@ def deepest_leaves_sum(root: TreeNode) -> int:
     return max_sum[0]
 
 
+def insert_into_bst(root: TreeNode, val: int) -> TreeNode:
+    """
+    # 701: Given the root node of a binary search tree (BST) and a value to be inserted into the tree, 
+    insert the value into the BST. Return the root node of the BST after the insertion. 
+    It is guaranteed that the new value does not exist in the original BST.
+
+    Note that there may exist multiple valid ways for the insertion, as long as the tree remains a BST 
+    after insertion. You can return any of them.
+    """
+    if not root:
+        return TreeNode(val)
+
+    if root.val > val:
+        root.left = insert_into_bst(root.left, val)
+    else:
+        root.right = insert_into_bst(root.right, val)
+
+    return root
+
+
 if __name__ == "__main__":
     t1 = TreeNode(3)
     t2 = TreeNode(9)
