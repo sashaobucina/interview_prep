@@ -837,6 +837,33 @@ def remove_leaf_nodes(root: TreeNode, target: int) -> TreeNode:
     return root
 
 
+def deepest_leaves_sum(root: TreeNode) -> int:
+    """
+    # 1302: Given a binary tree, return the sum of values of its deepest leaves.
+    """
+    max_sum = [0]
+    height = [0]
+
+    def _helper(root: TreeNode, level: int) -> None:
+        if not root:
+            return
+
+        if not root.left and not root.right:
+            if level > height[0]:
+                height[0] = level
+                max_sum[0] = root.val
+            elif level == height[0]:
+                max_sum[0] += root.val
+
+            return
+
+        _helper(root.left, level + 1)
+        _helper(root.right, level + 1)
+
+    _helper(root, 0)
+    return max_sum[0]
+
+
 if __name__ == "__main__":
     t1 = TreeNode(3)
     t2 = TreeNode(9)
