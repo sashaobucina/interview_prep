@@ -884,6 +884,29 @@ def insert_into_bst(root: TreeNode, val: int) -> TreeNode:
     return root
 
 
+def sum_root_to_leaves(root: TreeNode) -> int:
+    """
+    # 129: Given a binary tree containing digits from 0-9 only, each root-to-leaf path could represent a number.
+
+    An example is the root-to-leaf path 1->2->3 which represents the number 123.
+
+    Find the total sum of all root-to-leaf numbers.
+
+    NOTE: A leaf is a node with no children
+    """
+    def _helper(node: TreeNode, curr_int: int) -> int:
+        if not node:
+            return 0
+
+        curr_int = (curr_int * 10) + node.val
+        if not node.left and not node.right:
+            return curr_int
+
+        return _helper(node.left, curr_int) + _helper(node.right, curr_int)
+
+    return _helper(root, 0)
+
+
 if __name__ == "__main__":
     t1 = TreeNode(3)
     t2 = TreeNode(9)
@@ -913,6 +936,8 @@ if __name__ == "__main__":
     print("find leaves of binary tree", findLeaves(t1))
     print("Is subtree?", isSubtree(t3, t1))
     print("Lowest common ancestor:", lowestCommonAncestor(t1, t3, t5).val)
+
+    assert sum_root_to_leaves(t1) == 852
 
     preorder, inorder = [3, 9, 20, 15, 7], [9, 3, 15, 20, 7]
     bt = build_tree_preorder_inorder(preorder, inorder)
