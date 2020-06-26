@@ -907,6 +907,23 @@ def sum_root_to_leaves(root: TreeNode) -> int:
     return _helper(root, 0)
 
 
+def range_sum_bst(root: TreeNode, L: int, R: int) -> int:
+    """
+    # 938: Given the root node of a binary search tree, return the sum of values of all nodes with value between L and R (inclusive).
+
+    The binary search tree is guaranteed to have unique values.
+    """
+    if not root:
+        return 0
+
+    if root.val < L:
+        return range_sum_bst(root.right, L, R)
+    elif root.val > R:
+        return range_sum_bst(root.left, L, R)
+    else:
+        return root.val + range_sum_bst(root.left, L, R) + range_sum_bst(root.right, L, R)
+
+
 if __name__ == "__main__":
     t1 = TreeNode(3)
     t2 = TreeNode(9)
