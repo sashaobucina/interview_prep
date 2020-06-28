@@ -1,3 +1,4 @@
+from typing import List
 from collections import deque
 
 
@@ -54,9 +55,30 @@ def perfect_square_bfs(n: int) -> int:
     raise ValueError("Positive integer should be given!")
 
 
+def perfect_square_dfs(n: int) -> int:
+    """
+    This solution uses pruned DFS approach.
+    """
+    squares = [x * x for x in range(int(n ** 0.5), 0, -1)]
+
+    def _helper(n: int, count: int, squares: List[int]):
+        if n == 0:
+            ans[0] = count
+
+        # find biggest square that isnt larger than n, and if current count is not minimum, prune it
+        for i, sqr in enumerate(squares):
+            if sqr <= n and count + 1 < ans[0]:
+                _helper(n - sqr, count + 1, squares[i:])
+
+    ans = [float("inf")]
+    _helper(n, 0, squares)
+    return ans[0]
+
 
 if __name__ == "__main__":
-    assert perfect_square(12) == perfect_square_bfs(12) == 3
-    assert perfect_square(13) == perfect_square_bfs(13) == 2
+    assert perfect_square(12) == perfect_square_bfs(
+        12) == perfect_square_dfs(12) == 3
+    assert perfect_square(13) == perfect_square_bfs(
+        13) == perfect_square_dfs(13) == 2
 
     print("Passed all tests!")
