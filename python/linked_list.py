@@ -408,6 +408,30 @@ def middle_node(head: LinkedListNode) -> LinkedListNode:
     return slow
 
 
+def odd_even_list(head: LinkedListNode) -> LinkedListNode:
+    """
+    # 328: Given a singly linked list, group all odd nodes together followed by the even nodes. 
+    Please note here we are talking about the node number and not the value in the nodes.
+
+    You should try to do it in place. The program should run in O(1) space complexity and O(nodes) 
+    time complexity.
+    """
+    if not head:
+        return None
+
+    odd, even = head, head.next
+    even_head = even
+
+    while even and even.next:
+        odd.next = even.next
+        odd = odd.next
+        even.next = odd.next
+        even = even.next
+
+    odd.next = even_head
+    return head
+
+
 if __name__ == "__main__":
     ll = LinkedList()
     ll.addAtTail(1)
