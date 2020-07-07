@@ -1,65 +1,67 @@
+from typing import Dict, List, Set
 from collections import defaultdict
 
-"""
-Find all the connections that if disconnected, would lead to a disjoint graph / topology
-"""
-def criticalConnection(numOfServers, numOfConnections, connections):
-    adj_list = buildAdjList(connections, numOfServers)
 
-    res = []
-    for i, connection in enumerate(connections):
-        if check_disconnected(adj_list, connection, numOfServers):
-          res.append(connection)
-    return res
+def critical_connections(n: int, connections: List[List[int]]) -> List[List[int]]:
+    """
+    # 1192: There are n servers numbered from 0 to n-1 connected by undirected server-to-server connections 
+    forming a network where connections[i] = [a, b] represents a connection between servers a and b. 
+    Any server can reach any other server directly or indirectly through the network.
+
+    A critical connection is a connection that, if removed, will make some server unable to reach some other server.
+
+    Return all critical connections in the network in any order.
+
+    NOTE:
+    - 1 <= n <= 10^5
+    - n-1 <= connections.length <= 10^5
+    - connections[i][0] != connections[i][1]
+    - There are no repeated connections
+
+    This sol'n produces TLE!
+    """
+    # create graph represented thru adjacency list
+    network = defaultdict(set)
+    for c1, c2 in connections:
+        network[c1].add(c2)
+        network[c2].add(c1)
+
+    # disconnect a connection, check if network still fully connected
+    critical_conns = []
+    for conn in connections:
+        c1, c2 = conn
+        network[c1].remove(c2)
+        network[c2].remove(c1)
+
+        # check if connected, if not add to list
+        if not _is_connected(n, network):
+            critical_conns.append(conn)
+
+        network[c1].add(c2)
+        network[c2].add(c1)
+
+    return critical_conns
 
 
-def check_disconnected(adj_list, connection, numOfServers):
-    # remove connection
-    serv1, serv2 = connection
-    adj_list[serv1].remove(serv2)
-    adj_list[serv2].remove(serv1)
+def _is_connected(n: int, network: Dict[int, Set]) -> bool:
+    visited = [False] * (n + 1)
+    stk = [1]
+    while stk:
+        server = stk.pop()
+        visited[server] = True
 
-    # test if graph connected
-    res = is_connected(adj_list, numOfServers)
+        for conn_server in network[server]:
+            if not visited[conn_server]:
+                stk.append(conn_server)
 
-    # add connection back
-    adj_list[serv1].append(serv2)
-    adj_list[serv2].append(serv1)
-
-    # return connectivity status
-    return not res
-
-
-def is_connected(adj_list, numOfServers):
-    visited = [False] * (numOfServers + 1)
-
-    dfs(adj_list, visited, 1)
-
-    for i in range(1, numOfServers + 1):
-        if not visited[i]:
-            return False
-    return True
-
-
-def dfs(adj_list, visited, server):
-    visited[server] = True
-
-    for i in range(len(adj_list[server])):
-        if not visited[adj_list[server][i]]:
-            dfs(adj_list, visited, adj_list[server][i])
-
-def buildAdjList(connections, numOfServers):
-    adj_list = defaultdict(list)
-    for connection in connections:
-        serv1, serv2 = connection
-        adj_list[serv1].append(serv2)
-        adj_list[serv2].append(serv1)
-    return adj_list
+    return all(visited[1:])
 
 
 if __name__ == "__main__":
-  connections = [[1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [2, 8], [2, 6], [1, 9]]
-  numServers = 9
-  numConn = 10
-  print(criticalConnection(numServers, numConn, connections))     # expected: [[1, 2], [1, 9]]
+    n = 9
+    connections = [[1, 2], [2, 3], [3, 4], [4, 5], [
+        5, 6], [6, 7], [7, 8], [2, 8], [2, 6], [1, 9]]
+    expected = [[1, 2], [1, 9]]
+    assert critical_connections(n, connections) == [[1, 2], [1, 9]]
 
+    print("Passed all tests!")
