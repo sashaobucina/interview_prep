@@ -1,27 +1,48 @@
-def threeSum(nums: list) -> list:
+from typing import List
+
+
+def threeSum(nums: List[int]) -> List[List[int]]:
+    """
+    # 15: Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0?
+    Find all unique triplets in the array which gives the sum of zero.
+
+    NOTE: The solution set must not contain duplicate triplets.
+    """
+    res = []
     nums.sort()
 
-    solutionSet = []
-    for i in range(len(nums)):
-        if i != 0 and nums[i] == nums[i - 1]:
+    n = len(nums)
+    for i in range(n-2):
+
+        # skip duplicate starting points
+        if i > 0 and nums[i-1] == nums[i]:
             continue
 
-        j, k = i + 1, len(nums) - 1
-        while j < k:
-            if nums[i] + nums[j] + nums[k] == 0:
-                solutionSet.append([nums[i], nums[j], nums[k]])
-                j += 1
-                while j < k and nums[j] == nums[j - 1]:
-                    j += 1
-            elif nums[i] + nums[j] + nums[k] < 0:
-                j += 1
+        lo, hi = i + 1, n - 1
+        while lo < hi:
+            summed = nums[i] + nums[lo] + nums[hi]
+            
+            if summed == 0:
+                res.append([nums[i], nums[lo], nums[hi]])
+                
+                # skip duplicates
+                while lo < hi and nums[lo] == nums[lo + 1]:
+                    lo += 1
+                while lo < hi and nums[hi] == nums[hi - 1]:
+                    hi -= 1
+                lo += 1
+                hi -= 1
+
+            elif summed > 0:
+                hi -= 1
             else:
-                k -= 1
+                lo += 1
 
-    return solutionSet
+    return res
 
 
-def three_sum_smaller(nums: list, target: int) -> int:
+def three_sum_smaller(nums: List[int], target: int) -> int:
+    """ # 259 """
     counter = 0
     nums.sort()
     for i in range(len(nums) - 1):
@@ -29,7 +50,7 @@ def three_sum_smaller(nums: list, target: int) -> int:
     return counter
 
 
-def two_sum_smaller(nums, startInd, target):
+def two_sum_smaller(nums: List[int], startInd: int, target: int) -> int:
     sum = 0
     left, right = startInd, len(nums) - 1
 
