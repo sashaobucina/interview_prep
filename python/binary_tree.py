@@ -924,6 +924,38 @@ def range_sum_bst(root: TreeNode, L: int, R: int) -> int:
         return root.val + range_sum_bst(root.left, L, R) + range_sum_bst(root.right, L, R)
 
 
+def max_width_of_BT(root: TreeNode) -> int:
+    """
+    # 662: Given a binary tree, write a function to get the maximum width of the given tree. 
+    The width of a tree is the maximum width among all levels. The binary tree has the same structure 
+    as a full binary tree, but some nodes are null.
+
+    The width of one level is defined as the length between the end-nodes (the leftmost and right 
+    most non-null nodes in the level, where the null nodes between the end-nodes are also counted 
+    into the length calculation.
+    """
+    if not root:
+        return 0
+
+    max_width = 1
+    q = deque([(root, 1)])
+    while q:
+        left, left_idx = q[-1]
+        right, right_idx = q[0]
+
+        max_width = max(max_width, (right_idx - left_idx) + 1)
+
+        for i in range(len(q)):
+            curr, curr_idx = q.pop()
+
+            if curr.left:
+                q.appendleft((curr.left, 2 * curr_idx + 1))
+            if curr.right:
+                q.appendleft((curr.right, 2 * curr_idx))
+
+    return max_width
+
+
 if __name__ == "__main__":
     t1 = TreeNode(3)
     t2 = TreeNode(9)
