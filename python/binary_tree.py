@@ -956,6 +956,40 @@ def max_width_of_BT(root: TreeNode) -> int:
     return max_width
 
 
+def merge_trees(t1: TreeNode, t2: TreeNode) -> TreeNode:
+    """
+    # 617: Given two binary trees and imagine that when you put one of them to cover the other, some 
+    nodes of the two trees are overlapped while the others are not.
+
+    You need to merge them into a new binary tree. The merge rule is that if two nodes overlap, then sum 
+    node values up as the new value of the merged node. Otherwise, the NOT null node will be used as 
+    the node of new tree.
+    """
+    def _helper(t1, t2):
+        if not t1 and not t2:
+            return None
+
+        root_val = 0
+        t1_left, t1_right = None, None
+        t2_left, t2_right = None, None
+
+        if t1:
+            root_val += t1.val
+            t1_left, t1_right = t1.left, t1.right
+
+        if t2:
+            root_val += t2.val
+            t2_left, t2_right = t2.left, t2.right
+
+        root = TreeNode(root_val)
+        root.left = _helper(t1_left, t2_left)
+        root.right = _helper(t1_right, t2_right)
+
+        return root
+
+    return _helper(t1, t2)
+
+
 if __name__ == "__main__":
     t1 = TreeNode(3)
     t2 = TreeNode(9)
