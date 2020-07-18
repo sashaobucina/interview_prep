@@ -42,7 +42,7 @@ def top_sort_dfs(edges: List[List[int]]) -> List[int]:
     Topological sort using DFS and graph coloring.
     """
     order = []
-    WHITE, GRAY, BLACK = 0, 1, 2
+    GRAY, BLACK = 1, 2
 
     def dfs(u: int) -> bool:
         if u in visited:
@@ -53,7 +53,6 @@ def top_sort_dfs(edges: List[List[int]]) -> List[int]:
 
         visited[u] = GRAY
 
-        no_cycle = True
         for v in graph.get(u, []):
             if not dfs(v):
                 return False
