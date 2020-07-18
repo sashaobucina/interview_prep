@@ -1,6 +1,8 @@
 def valid_palindrome(s: str) -> bool:
     """
-    # 680: 
+    # 680: Given a non-empty string s, you may delete at most one character.
+
+    Judge whether you can make it a palindrome.
     """
     i, j = 0, len(s) - 1
 
