@@ -19,8 +19,11 @@ class LRUCache:
 
     The cache is initialized with a positive capacity.
 
-    Follow up:
-        - Could you do both operations in O(1) time complexity?
+
+    Follow up: Could you do both operations in O(1) time complexity?
+
+    A: Use a doubly linked list to keep track of most and least recently used items in O(1) time, 
+        and use a hash map for O(1) retrieval of keys in the cache.
     """
 
     def __init__(self, capacity):
