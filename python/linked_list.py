@@ -432,6 +432,25 @@ def odd_even_list(head: LinkedListNode) -> LinkedListNode:
     return head
 
 
+def remove_elements(head: LinkedListNode, val: int) -> LinkedListNode:
+    """
+    # 203: Remove all elements from a linked list of integers that have value val.
+    """
+    dummy = LinkedListNode(0)
+    dummy.next = head
+
+    prev, curr = dummy, head
+    while curr:
+        if curr.data == val:
+            prev.next = curr.next
+            curr = curr.next
+        else:
+            prev = curr
+            curr = curr.next
+
+    return dummy.next
+
+
 if __name__ == "__main__":
     ll = LinkedList()
     ll.addAtTail(1)
