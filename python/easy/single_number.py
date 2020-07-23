@@ -10,10 +10,11 @@ def singleNumber(nums: List[int]) -> int:
 
 
 def singleNumberXOR(nums: List[int]) -> int:
-    a = 0
-    for i in nums:
-        a ^= i
-    return a
+    bitmask = 0
+    for num in nums:
+        bitmask ^= num
+
+    return bitmask
 
 
 if __name__ == "__main__":
