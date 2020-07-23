@@ -335,31 +335,25 @@ def deleteNode(node: LinkedListNode) -> None:
     prev.next = None
 
 
-"""
-Given a linked list, remove the n-th node from the end of list and return its head.
-
-NOTE: n will always be valid (0 > n > len(linked list)). Solution is done in one-pass.
-"""
-
-
 def removeNthFromEnd(head: LinkedListNode, n: int):
+    """
+    # 19: Given a linked list, remove the n-th node from the end of list and return its head.
+
+    NOTE: n will always be valid (0 > n > len(linked list)). Solution is done in one-pass.
+    """
     dummy = LinkedListNode(0)
     dummy.next = head
-    first, second = dummy, dummy
 
-    for i in range(n + 1):
-        first = first.next
+    slow, fast = dummy, dummy
+    for i in range(n+1):
+        fast = fast.next
 
-    while first:
-        first = first.next
-        second = second.next
+    while fast:
+        fast = fast.next
+        slow = slow.next
 
-    second.next = second.next.next
+    slow.next = slow.next.next
     return dummy.next
-
-
-"""
-"""
 
 
 def swap_pairs(head: LinkedListNode):
