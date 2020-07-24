@@ -990,6 +990,34 @@ def merge_trees(t1: TreeNode, t2: TreeNode) -> TreeNode:
     return _helper(t1, t2)
 
 
+def get_lonely_nodes(root: TreeNode) -> List[int]:
+    """
+    # 1469: In a binary tree, a lonely node is a node that is the only child of its parent node. 
+
+    The root of the tree is not lonely because it does not have a parent node.
+
+    Given the root of a binary tree, return an array containing the values of all lonely nodes in the tree.
+    Return the list in any order.
+    """
+    lonely = []
+
+    def dfs(node: TreeNode) -> None:
+        if not node:
+            return
+
+        if node.left and not node.right:
+            lonely.append(node.left)
+
+        if node.right and not node.left:
+            lonely.append(node.right)
+
+        dfs(node.left)
+        dfs(node.right)
+
+    dfs(root)
+    return lonely
+
+
 if __name__ == "__main__":
     t1 = TreeNode(3)
     t2 = TreeNode(9)
