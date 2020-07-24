@@ -1,4 +1,7 @@
 ### Editor generated files
+.idea
 .vscode
 node_modules
+
+# Custom
 diagrams
