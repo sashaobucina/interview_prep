@@ -33,15 +33,17 @@ def find_peak_element_follow_up(nums: List[int]) -> int:
     Time complexity: O(logn)
     Space complexity: O(1)
     """
-    lo, hi = 0, len(nums) - 1
-    while lo < hi:
-        mid = lo + (hi - lo) // 2
-        if nums[mid] > nums[mid + 1]:
-            hi = mid
+    ans = -1
+    l, r = 0, len(nums) - 1
+    while l <= r:
+        m = l + (r - l) // 2
+        if m == 0 or nums[m] > nums[m - 1]:
+            ans = m
+            l = m + 1
         else:
-            lo = mid + 1
+            r = m - 1
 
-    return lo
+    return ans
 
 
 if __name__ == "__main__":
