@@ -14,7 +14,8 @@ def is_power_of_four(num: int) -> bool:
 
 def is_power_of_four_math(num: int) -> bool:
     """
-
+    If num is a power of four x = 4^a, then a = log4(x) = 1/2 * log2(x) is an integer. 
+    Hence let's simply check if log2(x) is an even number.
     """
     return num > 0 and log2(num) % 2 == 0
 
