@@ -1,6 +1,24 @@
 from typing import List
 
 
+def coin_change(coins: List[int], amount: int) -> int:
+    """
+    # 322: You are given coins of different denominations and a total amount of money amount.
+
+    Write a function to compute the fewest number of coins that you need to make up that amount. 
+    If that amount of money cannot be made up by any combination of the coins, return -1.
+    """
+    memo = [float("inf") for _ in range(amount + 1)]
+    memo[0] = 0
+
+    for coin in coins:
+        for i in range(coin, amount + 1):
+            # Recurrence relation: T[amt] = min(T[amt], T[amt - coin] + 1)
+            memo[i] = min(memo[i], memo[i - coin] + 1)
+
+    return memo[amount] if memo[amount] != float("inf") else -1
+
+
 def ways_to_pay(coins: set, n: int, startCoin: int) -> int:
     """
     Find the number of unique ways to pay using an infinite set of given coins.
@@ -39,7 +57,15 @@ def ways_to_pay_dp(coins: set, n: int):
 
 
 if __name__ == "__main__":
-    coins = (1, 5, 10, 25)
+    # Leetcode coin change problem (# 322)
+    coins = [1, 2, 5]
+    assert coin_change(coins, 11) == 3
+
+    coins = [2]
+    assert coin_change(coins, 3) == -1
+
+    # classic coin change problem (GeeksForGeeks DP-7)
+    coins = [1, 5, 10, 25]
     assert ways_to_pay_dp(coins, 40) == ways_to_pay(coins, 40, 0) == 31
 
     print("Passed all tests!")
