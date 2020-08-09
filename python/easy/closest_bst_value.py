@@ -23,17 +23,17 @@ def closest_value(root: TreeNode, target: float) -> int:
 
         if not root:
             return
-        
+
         _diff = target - root.val
         if abs(_diff) < diff:
             diff = abs(_diff)
             val = root.val
-        
+
         if _diff > 0:
             helper(root.right)
         else:
             helper(root.left)
-    
+
     helper(root)
     return val
 
