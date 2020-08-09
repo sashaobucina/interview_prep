@@ -31,28 +31,26 @@ def oranges_rotting(grid: List[List[int]]) -> int:
 
     # staging for BFS
     q = deque([])
-    visited = set()
 
     for i, j in bad:
         q.appendleft((i, j, 0))
-        visited.add((i, j))
 
-    # perform BFS, due to properties of BFS minutes are guaranteed to smallest for each encountered fresh apple
+    # perform BFS, due to properties of BFS, minutes are guaranteed to smallest for each encountered fresh apple
     res = 0
+    cnt = 0
     while q:
         x, y, minutes = q.pop()
 
         for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
             x2, y2 = x + dx, y + dy
 
-            if 0 <= x2 < m and 0 <= y2 < n and (x2, y2) not in visited and grid[x2][y2] == 1:
+            if 0 <= x2 < m and 0 <= y2 < n and grid[x2][y2] == 1:
                 q.appendleft((x2, y2, minutes + 1))
-
                 res = max(res, minutes + 1)
-                visited.add((x2, y2))
-                good.discard((x2, y2))
+                grid[x2][y2] = 2
+                cnt += 1
 
-    return res if not good else -1
+    return res if cnt == len(good) else -1
 
 
 if __name__ == "__main__":
