@@ -10,7 +10,7 @@ def group_anagrams_by_sort(strs: List[str]) -> List[List[str]]:
     """
     d = defaultdict(list)
     for s in strs:
-        d["".join(sorted(s))] = s
+        d["".join(sorted(s))].append(s)
 
     return list(d.values())
 
@@ -32,7 +32,7 @@ def group_anagrams_by_count(strs: List[List[int]]) -> List[List[str]]:
 if __name__ == "__main__":
     strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
 
-    actual_by_sort = group_anagrams_by_count(strs)
+    actual_by_sort = group_anagrams_by_sort(strs)
     actual_by_count = group_anagrams_by_count(strs)
     expected = sorted([["eat", "tea", "ate"], ["tan", "nat"], ["bat"]])
 
