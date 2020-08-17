@@ -60,8 +60,7 @@ def max_profit(prices: List[int]) -> int:
         - buy 1st time
         - sell 1st time
         - buy 2nd time
-        - sell 2nd time
-        - done; completed two transactions
+        - sell 2nd time; completed two transactions
 
     Time complexity: O(n)
     Space complexity O(n)
@@ -75,25 +74,22 @@ def max_profit(prices: List[int]) -> int:
     sold1 = [0] * (N + 1)
     held2 = [0] * (N + 1)
     sold2 = [0] * (N + 1)
-    end = [0] * (N + 1)
 
     # base cases
     sold1[0] = -float("inf")
     held1[0] = -float("inf")
     sold2[0] = -float("inf")
     held2[0] = -float("inf")
-    end[0] = -float("inf")
 
     # recursive case
     for i in range(N):
         held1[i + 1] = max(held1[i], -prices[i])
         sold1[i + 1] = max(sold1[i], held1[i] + prices[i])
         held2[i + 1] = max(held2[i], sold1[i] - prices[i])
-        sold2[i + 1] = held2[i] + prices[i]
-        end[i + 1] = max(end[i], sold2[i])
+        sold2[i + 1] = max(sold2[i], held2[i] + prices[i])
 
-    # max comes from sold1, sold2, or done state
-    return max(0, sold1[N], sold2[N], end[N])
+    # max comes from sold1 or sold2 state
+    return max(0, sold1[N], sold2[N])
 
 
 if __name__ == "__main__":
