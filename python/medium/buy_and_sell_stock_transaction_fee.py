@@ -14,6 +14,14 @@ def max_profit(prices: List[int], fee: int) -> int:
 
     Time complexity: O(n)
     Space complexity: O(n) -> can make O(1) w/ auxiliary variables
+
+    NOTE (for future reference):
+        - If I am holding a share after today, then either I am just continuing holding the share I had 
+        yesterday, or that I held no share yesterday, but bought in one share today: hold = max(hold, cash - prices[i])
+        - If I am not holding a share after today, then either I did not hold a share yesterday, or 
+        that I held a share yesterday but I decided to sell it out today: cash = max(cash, hold + prices[i] - fee).
+
+        Make sure fee is only incurred once on the sell action.
     """
     if not prices:
         return 0
