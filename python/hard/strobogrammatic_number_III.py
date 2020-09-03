@@ -16,6 +16,7 @@ def strobogrammatic_in_range(low: int, high: int) -> int:
             num //= 10
             cnt += 1
         return cnt
+
     # find num digits in low & high
     num1 = find_num_digits(int(low))
     num2 = find_num_digits(int(high))
