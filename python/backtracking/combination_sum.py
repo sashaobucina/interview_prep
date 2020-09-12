@@ -55,6 +55,37 @@ def combination_sum_II(candidates: list, target: int) -> list:
     return sums
 
 
+def combination_sum_III(n: int, k: int) -> List[List[int]]:
+    """
+    # 216: Find all possible combinations of k numbers that add up to a number n, given that only numbers 
+    from 1 to 9 can be used and each combination should be a unique set of numbers.
+
+    NOTE:
+        All numbers will be positive integers.
+        The solution set must not contain duplicate combinations.
+    """
+    if k > n or n < 1:
+        return []
+
+    res = []
+
+    def dfs(n, k, nums):
+        if (n == 0 and k != 0) or (k == 0 and n != 0):
+            return
+        if k == 0 and n == 0:
+            res.append(nums)
+            return
+
+        for num in range(nums[-1] + 1, 10):
+            if n - num >= 0:
+                dfs(n - num, k - 1, nums + [num])
+
+    for num in range(1, 10):
+        dfs(n - num, k - 1, [num])
+
+    return res
+
+
 def combination_sum_IV(nums: List[int], target: int) -> int:
     """
     # 377: Given an integer array with all positive numbers and no duplicates, find the number of possible 
@@ -100,5 +131,7 @@ if __name__ == "__main__":
 
     arr3 = [1, 2, 3, 4]
     assert combination_sum_IV(arr3, 4) == 8
+
+    assert combination_sum_III(7, 3) == [[1, 2, 4]]
 
     print("Passed all tests!")
