@@ -5,9 +5,8 @@ from nltk.corpus import words
 word_list = words.words()
 
 def f(s, n):
-    print(words)
     res = []
-    for x in set(_permutations(s, n)):
+    for x in _permutations(s, n):
         _x = "".join(x)
         if _x in word_list:
             res.append(_x)
@@ -35,7 +34,8 @@ def _permutations(word, n):
     return set(res)
 
 if __name__ == "__main__":
-    letters = "eayrl"
+    letters = "ybwsau"
     print(f"3 words: {sorted(f(letters, 3))}")
     print(f"4 words: {sorted(f(letters, 4))}")
     print(f"5 words: {sorted(f(letters, 5))}")
+    print(f"6 words: {sorted(f(letters, 6))}")
