@@ -24,6 +24,8 @@ class MinStack
   end
 
   def pop
+    return nil if @items.empty?
+
     node = @items.pop
 
     if node.val == min
@@ -34,6 +36,8 @@ class MinStack
   end
 
   def peek
+    return nil if @items.empty?
+
     @items[-1].val
   end
 end
@@ -69,7 +73,11 @@ class MinStackTest < Minitest::Test
     assert_equal(1, @stack.min)
   end
 
-  def test_pop
+  def test_pop_empty
+    assert_nil(@stack.pop)
+  end
+
+  def test_pop_multiple
     @stack.push(1)
     @stack.push(5)
     @stack.push(2)
@@ -89,6 +97,9 @@ class MinStackTest < Minitest::Test
 
     @stack.pop
     assert_equal(5, @stack.min)
+
+    @stack.pop
+    assert_nil(@stack.min)
   end
 
   def test_peek
@@ -97,5 +108,9 @@ class MinStackTest < Minitest::Test
     @stack.push(1)
 
     assert_equal(1, @stack.peek)
+  end
+
+  def test_peek_empty
+    assert_nil(@stack.peek)
   end
 end
