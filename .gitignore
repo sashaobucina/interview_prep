@@ -5,3 +5,9 @@ node_modules
 
 # Custom
 diagrams
+
+ruby/sales_chart.rb
+ruby/output_ranges.rb
+ruby/package_matcher.rb
+ruby/product_sorting.rb
+ruby/pepper_sauce_fulfillment.rb
