@@ -53,6 +53,13 @@ class BinaryTree
     @root = root
   end
 
+  def depth(node = @root)
+    return 0 if node.nil?
+    return 1 if node.leaf?
+
+    1 + [depth(node.left), depth(node.right)].max
+  end
+
   def complete?
     queue = [root]
     incomplete = false
@@ -86,6 +93,24 @@ class BinaryTreeTest < Minitest::Test
 
     assert_nil(tree.root.right.left)
     assert_nil(tree.root.right.right)
+  end
+
+  def test_depth_empty
+    tree = BinaryTree.new(nil)
+
+    assert_equal(0, tree.depth)
+  end
+
+  def test_depth_root
+    tree = BinaryTree.build([1])
+
+    assert_equal(1, tree.depth)
+  end
+
+  def test_depth_multiple
+    tree = BinaryTree.build([1, 2, 3, 4, 5, 6, nil, 8])
+
+    assert_equal(4, tree.depth)
   end
 
   def test_complete
