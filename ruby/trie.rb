@@ -78,7 +78,6 @@ class Trie
 
   private
 
-  # rubocop:disable Metrics/MethodLength
   def remove_chain(stack)
     ch, node = stack.pop
     parent_ch, parent = stack.pop
@@ -101,7 +100,6 @@ class Trie
       parent.nodes.delete(ch)
     end
   end
-  # rubocop:enable Metrics/MethodLength
 end
 
 class TrieTest < Minitest::Test

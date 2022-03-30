@@ -29,7 +29,6 @@ def sentences_similar?(sentence1, sentence2)
   true
 end
 
-# rubocop:disable Style/Documentation(RuboCop)
 class SentenceSimilarityTest < Minitest::Test
   def test_sentence_similarity1
     sentence1 = 'My name is Haley'
@@ -52,4 +51,3 @@ class SentenceSimilarityTest < Minitest::Test
     assert(sentences_similar?(sentence1, sentence2))
   end
 end
-# rubocop:enable Style/Documentation(RuboCop)
