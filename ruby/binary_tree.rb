@@ -52,6 +52,25 @@ class BinaryTree
   def initialize(root)
     @root = root
   end
+
+  def complete?
+    queue = [root]
+    incomplete = false
+
+    until queue.empty?
+      node = queue.shift
+
+      return false if node.right && !node.left
+      return false if incomplete && (node.right || node.left)
+
+      queue << node.left if node.left
+      queue << node.right if node.right
+
+      incomplete = (node.left.nil? || node.right.nil?)
+    end
+
+    true
+  end
 end
 
 class BinaryTreeTest < Minitest::Test
@@ -67,5 +86,35 @@ class BinaryTreeTest < Minitest::Test
 
     assert_nil(tree.root.right.left)
     assert_nil(tree.root.right.right)
+  end
+
+  def test_complete
+    tree = BinaryTree.build([1, 2, 3, 4, 5, 6])
+
+    assert_predicate(tree, :complete?)
+  end
+
+  def test_complete_full
+    tree = BinaryTree.build([1, 2, 3, 4, 5, 6, 7])
+
+    assert_predicate(tree, :complete?)
+  end
+
+  def test_complete_sparse
+    tree = BinaryTree.build([1, 2, nil])
+
+    assert_predicate(tree, :complete?)
+  end
+
+  def test_incomplete
+    tree = BinaryTree.build([1, 2, 3, 4, 5, nil, 7])
+
+    refute_predicate(tree, :complete?)
+  end
+
+  def test_incomplete2
+    tree = BinaryTree.build([1, 2, 3, 5, nil, 7, 8])
+
+    refute_predicate(tree, :complete?)
   end
 end
